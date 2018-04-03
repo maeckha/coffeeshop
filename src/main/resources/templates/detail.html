@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header :: head"></div>
+<div th:replace="/fragments/header :: header"></div>
+<div th:replace="/fragments/header :: navbar"></div>
+<body>
+<style>
+    #nav-catalog {
+        background-color: rgb(217, 229, 236);
+        color: rgb(51, 65, 82);
+    }
+</style>
+
+<main class="catalog-wrapper">
+    <h1 th:text="${product.name}">product name</h1>
+
+    <input id="quantity" type="number" min="1" max="99" required="true" value="1"/>
+    <button id="addButton">Add to cart</button>
+</main>
+
+<script>
+
+
+</script>
+</body>
+<div th:replace="/fragments/footer :: footer"></div>
+</html>

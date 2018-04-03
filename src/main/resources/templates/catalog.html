@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header :: head"></div>
+<div th:replace="/fragments/header :: header"></div>
+<div th:replace="/fragments/header :: navbar"></div>
+<body>
+<style>
+    #nav-catalog {
+        background-color: rgb(217, 229, 236);
+        color: rgb(51, 65, 82);
+    }
+</style>
+
+<main class="catalog-wrapper" xmlns:th="http://www.thymeleaf.org">
+    <section class="cards">
+
+        <article th:each="product: ${products}">
+            <a th:href="@{/products/{productId}(productId=${product.id})}">
+                <h5 class="title" th:text="${product.name}">product name</h5>
+                <p th:text="${product.id}">0815-420</p>
+            </a>
+        </article>
+    </section>
+
+</main>
+</body>
+<div th:replace="/fragments/footer :: footer"></div>
+</html>

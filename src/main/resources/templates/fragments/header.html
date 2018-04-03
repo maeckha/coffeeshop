@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="head">
+    <title th:text="${title}">page title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/reset.css"/>
+    <link rel="stylesheet" href="/shop.css"/>
+</head>
+
+
+<header th:fragment="header">
+    <div class="header-title">
+        <a href="/">Any Shop</a>
+    </div>
+
+    <div id="shopping-cart-wrapper">
+        <svg width="96" height="96" xmlns="http://www.w3.org/2000/svg">
+            <g transform="scale(0.4)">
+                <ellipse ry="116.5" rx="116.5" id="svg_6" cy="122" cx="122" stroke-width="1.5" stroke="#000" fill="#7AD6CA"/>
+                <g id="svg_5">
+                    <path id="svg_4" d="m145.09889,175.1369q0,4.28667 3.08728,7.4192t7.31197,3.13257t7.31201,-3.13257t3.08723,-7.4192t-3.08723,-7.41924t-7.31201,-3.13257t-7.31197,3.13257t-3.08728,7.41924zm-72.79484,0q0,4.28667 3.08727,7.4192t7.31196,3.13257t7.31199,-3.13257t3.08731,-7.4192t-3.08731,-7.41924t-7.31199,-3.13257t-7.31196,3.13257t-3.08727,7.41924zm-10.39927,-89.69019l0,42.20714q0,1.97845 1.34052,3.50351t3.2904,1.77237l84.81898,10.05717q-1.05614,4.94615 -1.05614,5.77052q0,1.31895 1.94984,5.27588l-74.74472,0q-2.11234,0 -3.65598,1.5663t-1.54363,3.70959t1.54363,3.70963t3.65598,1.56627l83.19412,0q2.11237,0 3.65601,-1.56627t1.54359,-3.70963q0,-0.90678 -0.64996,-2.59673t-1.29988,-2.9677t-1.74673,-3.29741t-1.25929,-2.43185l14.38022,-67.84471l16.57384,0q2.11234,0 3.65601,-1.56628t1.54364,-3.70959t-1.54364,-3.70962t-3.65601,-1.56629l-20.79854,0q-1.29991,0 -2.31543,0.53584t-1.5843,1.27776t-1.05614,2.01966t-0.64998,2.14333t-0.44684,2.43187t-0.36559,2.14333l-97.57435,0q-2.11233,0 -3.65598,1.56629t-1.54364,3.70962z"/>
+                </g>
+                <text transform="rotate(7.89541, 121.981, 106.278)" font-weight="bold" xml:space="preserve"
+                      text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="52" id="shopping-cart-quantity" y="127.38889" x="107.53704" stroke-opacity="null" stroke-width="0" stroke="#000" fill="#9A8AAB">2</text>
+            </g>
+        </svg>
+
+    </div>
+
+</header>
+
+
+<nav th:fragment="navbar">
+    <a class="nav-item" id="nav-home" href="/" title="Home page">Home</a>
+    <a class="nav-item" id="nav-catalog" href="/products/" title="Product catalog">Products</a>
+    <a class="nav-item" id="nav-cart" href="/products/" title="Shopping Cart">Shopping Cart</a>
+    <a class="nav-item">About</a>
+</nav>
+
+
+<body></body>
+</html>
