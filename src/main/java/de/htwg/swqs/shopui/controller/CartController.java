@@ -3,6 +3,7 @@ package de.htwg.swqs.shopui.controller;
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.model.ShoppingCartItem;
 import de.htwg.swqs.cart.service.CartService;
+import de.htwg.swqs.shopui.util.ItemRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -41,14 +42,16 @@ public class CartController {
     }
 
     @PostMapping(value = "/{cartId}/add-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ShoppingCart addItemToCart(@PathVariable long cartId, @RequestBody long productId, @RequestBody int quantity) {
-
-        return this.cartService.addItemToCart(cartId, productId, quantity);
+    public ShoppingCart addItemToCart(@PathVariable int cartId, @RequestBody ItemRequestWrapper itemRequestWrapper) {
+        System.err.println("add item called");
+        return this.cartService.addItemToCart((long) cartId, itemRequestWrapper.getProductId(), itemRequestWrapper.getQuantity());
     }
 
     @PostMapping(value = "/{cartId}/remove-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ShoppingCart removeItemFromCart(@PathVariable long cartId, @RequestBody long productId, @RequestBody int quantity) {
-        return this.cartService.removeItemFromCart(cartId, productId, quantity);
+    public ShoppingCart removeItemFromCart(@PathVariable int cartId, @RequestBody ItemRequestWrapper itemRequestWrapper) {
+        System.err.println("remove item called");
+        System.err.println("cart id = " + cartId + " | product id = " + itemRequestWrapper.getProductId() + " | quantity = " + itemRequestWrapper.getQuantity());
+        return this.cartService.removeItemFromCart((long) cartId, itemRequestWrapper.getProductId(), itemRequestWrapper.getQuantity());
     }
 
 }

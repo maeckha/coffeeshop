@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header :: head"></div>
+<div th:replace="/fragments/header :: header"></div>
+<div th:replace="/fragments/header :: navbar"></div>
+<body>
+<style>
+    #nav-cart {
+        background-color: rgb(217, 229, 236);
+        color: rgb(51, 65, 82);
+    }
+
+    table td {
+        vertical-align: top;
+        border: solid 1px #888;
+        padding: 10px;
+    }
+
+</style>
+
+<main class="cart-wrapper">
+
+    <div th:if="${#lists.isEmpty(shoppingCart.itemsInShoppingCart)}">
+        <h5>No products in shopping cart</h5>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(shoppingCart.itemsInShoppingCart)}">
+        <table>
+            <thead>
+            <tr>
+                <td>Art-Nr</td>
+                <td>Name</td>
+                <td>Quantity</td>
+                <td>price per item</td>
+                <td>price total</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item: ${shoppingCart.itemsInShoppingCart}">
+                <td th:text="${item.product.id}" th:id="'product-id-' + ${item.product.id}">item.product.id</td>
+                <td th:text="${item.product.name}">item.product.name</td>
+                <td th:text="${item.quantity}" th:id="'quantity-' + ${item.product.id}">item.quantity</td>
+                <td th:text="${item.product.priceEuro}">item.product.priceEuro</td>
+                <td>GESAMTPREIS FÜR ITEM</td>
+
+                <td>
+                    <button th:id="${item.product.id}" onClick="removeItem(this.id)">remove item</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p>Cart total sum: <span th:text="${shoppingCart.cartTotalSum}"></span></p>
+        <button>Order</button>
+    </div>
+
+</main>
+<div th:replace="/fragments/footer :: footer"></div>
+<script type="text/javascript">
+    function removeItem(itemId) {
+        var cartId = Cookies.get("cart-id");
+        console.log("itemId", itemId);
+        // get the needed infos for the controller call
+        console.log("quantity-" + itemId);
+        var quantity = document.getElementById("quantity-" + itemId).innerHTML;
+        var productId = document.getElementById("product-id-" + itemId).innerHTML;
+
+        // send item to server
+        var requestUrl = "/carts/" + cartId + "/remove-item";
+        console.log(requestUrl);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", requestUrl);
+
+        xhr.onreadystatechange = function () {
+
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // the response is the updated shopping cart
+                    console.log("xhr response", xhr.responseText);
+                    location.reload();
+                } else {
+                    console.error("Status = " + xhr.status);
+                }
+            }
+        };
+
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({productId: productId, quantity: quantity}));
+    }
+</script>
+</body>
+</html>

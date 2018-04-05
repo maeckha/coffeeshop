@@ -94,10 +94,18 @@ nav {
     background-color: rgb(217, 229, 236);
 }
 
+#nav-cart {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
 #shopping-cart-wrapper {
     position: absolute;
     right: 10px;
     top: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
 }
 
 /* ################################################# */

@@ -13,15 +13,13 @@
 
 <main class="catalog-wrapper">
     <h1 th:text="${product.name}">product name</h1>
+    <p id="product-id" th:text="${product.id}">product id</p>
 
     <input id="quantity" type="number" min="1" max="99" required="true" value="1"/>
     <button id="addButton">Add to cart</button>
 </main>
 
-<script>
-
-
-</script>
-</body>
 <div th:replace="/fragments/footer :: footer"></div>
+<script src="/detail.js"></script>
+</body>
 </html>
