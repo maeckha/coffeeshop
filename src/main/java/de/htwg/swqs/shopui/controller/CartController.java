@@ -1,57 +1,78 @@
 package de.htwg.swqs.shopui.controller;
 
 import de.htwg.swqs.cart.model.ShoppingCart;
-import de.htwg.swqs.cart.model.ShoppingCartItem;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.shopui.util.ItemRequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("carts/")
 public class CartController {
 
-    private CartService cartService;
+  private CartService cartService;
 
-    @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
+  @Autowired
+  public CartController(CartService cartService) {
+    this.cartService = cartService;
 
-    }
+  }
 
-    @GetMapping(value = "/create")
-    public long createNewCartAndReturnId() {
+  @GetMapping(value = "create")
+  public long createNewCartAndReturnId() {
 
-        ShoppingCart newCart = this.cartService.createNewShoppingCart();
-        return  newCart.getId();
-    }
+    ShoppingCart newCart = this.cartService.createNewShoppingCart();
+    return newCart.getId();
+  }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ShoppingCart getCartById(@PathVariable long id) {
-        // return the full shopping cart with sum and all products
-        return this.cartService.getShoppingCart(id);
-    }
+  @GetMapping(value = "get", produces = MediaType.APPLICATION_JSON_VALUE)
+  public @ResponseBody
+  ShoppingCart getCartById(@CookieValue("cart-id") long cartId) {
+    // return the full shopping cart with sum and all products
+    return this.cartService.getShoppingCart(cartId);
+  }
 
-    @GetMapping(value = "/{id}/clear")
-    public ShoppingCart removeCartById(@PathVariable long id) {
+  @GetMapping(value = "clear")
+  public @ResponseBody
+  ShoppingCart removeCartById(@CookieValue("cart-id") long cartId) {
 
-        return this.cartService.clearShoppingCart(id);
-    }
+    return this.cartService.clearShoppingCart(cartId);
+  }
 
-    @PostMapping(value = "/{cartId}/add-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ShoppingCart addItemToCart(@PathVariable int cartId, @RequestBody ItemRequestWrapper itemRequestWrapper) {
-        System.err.println("add item called");
-        return this.cartService.addItemToCart((long) cartId, itemRequestWrapper.getProductId(), itemRequestWrapper.getQuantity());
-    }
+  @PostMapping(
+      value = "add",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public @ResponseBody
+  ShoppingCart addItemToCart(
+      @CookieValue("cart-id") long cartId,
+      @RequestBody ItemRequestWrapper itemRequestWrapper) {
 
-    @PostMapping(value = "/{cartId}/remove-item", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ShoppingCart removeItemFromCart(@PathVariable int cartId, @RequestBody ItemRequestWrapper itemRequestWrapper) {
-        System.err.println("remove item called");
-        System.err.println("cart id = " + cartId + " | product id = " + itemRequestWrapper.getProductId() + " | quantity = " + itemRequestWrapper.getQuantity());
-        return this.cartService.removeItemFromCart((long) cartId, itemRequestWrapper.getProductId(), itemRequestWrapper.getQuantity());
-    }
+    return this.cartService.addItemToCart(cartId, itemRequestWrapper.getProductId(),
+        itemRequestWrapper.getQuantity());
+  }
+
+  @PostMapping(
+      value = "/remove",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public @ResponseBody
+  ShoppingCart removeItemFromCart(
+      @CookieValue("cart-id") long cartId,
+      @RequestBody ItemRequestWrapper itemRequestWrapper) {
+
+    return this.cartService.removeItemFromCart((long) cartId, itemRequestWrapper.getProductId(),
+        itemRequestWrapper.getQuantity());
+  }
 
 }

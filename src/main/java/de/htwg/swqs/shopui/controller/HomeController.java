@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-    @RequestMapping("/")
-    public String home(Model model) {
-        model.addAttribute("title", "E-Commerce Shop | Home");
+  @RequestMapping("/")
+  public String home(Model model) {
+    model.addAttribute("title", "E-Commerce Shop | Home");
 
-        return "index";
-    }
+    return "index";
+  }
 }

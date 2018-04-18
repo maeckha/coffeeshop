@@ -1,0 +1,19 @@
+2018-03-26 14:08:13.659  INFO 8519 --- [main] de.htwg.swqs.catalog.CatalogApplication  : Starting CatalogApplication on mirko-zenbook with PID 8519 (/home/swqs/IdeaProjects/swqs-catalog/target/classes started by swqs in /home/swqs/IdeaProjects/swqs-shop-parent)
+2018-03-26 14:08:13.664 DEBUG 8519 --- [main] de.htwg.swqs.catalog.CatalogApplication  : Running with Spring Boot v2.0.0.RELEASE, Spring v5.0.4.RELEASE
+2018-03-26 14:08:13.664  INFO 8519 --- [main] de.htwg.swqs.catalog.CatalogApplication  : No active profile set, falling back to default profiles: default
+2018-03-26 14:08:13.720  INFO 8519 --- [main] s.c.a.AnnotationConfigApplicationContext : Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@48aaecc3: startup date [Mon Mar 26 14:08:13 CEST 2018]; root of context hierarchy
+2018-03-26 14:08:17.296  INFO 8519 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2018-03-26 14:08:17.407  INFO 8519 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2018-03-26 14:08:17.465  INFO 8519 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2018-03-26 14:08:42.299  INFO 8519 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2018-03-26 14:08:43.046  WARN 8519 --- [main] o.s.b.a.m.MustacheAutoConfiguration      : Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2018-03-26 14:08:43.136  INFO 8519 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-03-26 14:08:43.138  INFO 8519 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Bean with name 'dataSource' has been autodetected for JMX exposure
+2018-03-26 14:08:43.142  INFO 8519 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
+2018-03-26 14:08:43.163  INFO 8519 --- [main] de.htwg.swqs.catalog.CatalogApplication  : Started CatalogApplication in 30.012 seconds (JVM running for 30.952)
+2018-03-26 14:08:43.169  INFO 8519 --- [Thread-16] s.c.a.AnnotationConfigApplicationContext : Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@48aaecc3: startup date [Mon Mar 26 14:08:13 CEST 2018]; root of context hierarchy
+2018-03-26 14:08:43.172  INFO 8519 --- [Thread-16] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2018-03-26 14:08:43.173  INFO 8519 --- [Thread-16] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans
+2018-03-26 14:08:43.175  INFO 8519 --- [Thread-16] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2018-03-26 14:08:43.176  INFO 8519 --- [Thread-16] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2018-03-26 14:08:43.191  INFO 8519 --- [Thread-16] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

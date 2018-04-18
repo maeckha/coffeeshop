@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CartViewController {
 
-    private CartService cartService;
+  private CartService cartService;
 
-    @Autowired
-    public CartViewController(CartService cartService) {
-        this.cartService = cartService;
+  @Autowired
+  public CartViewController(CartService cartService) {
+    this.cartService = cartService;
+  }
 
-    }
-    @RequestMapping(value = {"/show-cart"})
-    public String showShoppingCart(@CookieValue("cart-id") long cartId, Model model) {
-        model.addAttribute("title", "E-Commerce Shop | Shopping cart overview");
-        model.addAttribute("shoppingCart", this.cartService.getShoppingCart(cartId));
-        return "shoppingcart";
-    }
+  @RequestMapping(value = {"/show-cart"})
+  public String showShoppingCart(@CookieValue("cart-id") long cartId, Model model) {
+    model.addAttribute("title", "E-Commerce Shop | Shopping cart overview");
+    model.addAttribute("shoppingCart", this.cartService.getShoppingCart(cartId));
+    return "shoppingcart";
+  }
 }

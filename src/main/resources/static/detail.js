@@ -61,7 +61,7 @@ function addItemToCart() {
 
     // send item to server
     // var requestUrl = document.location.host + "/carts/create";
-    var requestUrl = "/carts/" + cartId + "/add-item";
+    var requestUrl = "/carts/add";
     var xhr = new XMLHttpRequest();
     xhr.open("POST", requestUrl);
 
