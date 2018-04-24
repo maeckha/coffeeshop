@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header :: head"></div>
+<div th:replace="/fragments/header :: header"></div>
+<div th:replace="/fragments/header :: navbar"></div>
+<body>
+<main class="order-wrapper">
+
+  <h1>Create new order</h1>
+
+  <form action="#" th:action="@{/order}" th:object="${orderwrapper}" method="post">
+    <p>Email address: <input type="text" th:field="*{customerInfo.email}"/></p>
+    <p>First Name: <input type="text" th:field="*{customerInfo.firstname}"/></p>
+    <p>Last Name: <input type="text" th:field="*{customerInfo.surname}"/></p>
+    <p>Street & Housenumber: <input type="text" th:field="*{customerInfo.street}"/></p>
+    <p>Post code: <input type="text" th:field="*{customerInfo.postcode}"/></p>
+    <p>City: <input type="text" th:field="*{customerInfo.city}"/></p>
+    <p>Country:
+      <select th:field="*{customerInfo.isoCountryCode}">
+        <option value="DE">Germany</option>
+        <option value="AT">Austria</option>
+        <option value="CH">Switzerland</option>
+        <option value="US">United states</option>
+      </select>
+    </p>
+    <p>Country:
+      <select th:field="*{currency}">
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+      </select>
+    </p>
+
+    <p>
+      <button type="submit" id="submit-order-form" value="Submit">Calculate shipping costs</button>
+      <button type="reset" value="Reset">reset the input</button>
+    </p>
+  </form>
+
+</main>
+<div th:replace="/fragments/footer :: footer"></div>
+</body>
+</html>

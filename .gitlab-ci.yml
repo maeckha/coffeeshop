@@ -1,0 +1,30 @@
+# declares which docker image should be used
+# https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-an-image
+image: maven:3-jdk-8
+
+cache:
+  paths:
+    - .m2/
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+
+test:
+  script:
+    - "mvn test --batch-mode"
+
+# define shell script which executed by GitLab Runner
+verify:
+  #before_script:
+  #- "curl -f -L -H \"PRIVATE-TOKEN: ${RESUME_APIKEY}\" -o assets/resume.pdf 'https://gitlab.com/namespace/project/-/jobs/artifacts/master/raw/resume.pdf?job=build'"
+
+  script:
+  - "mvn verify --batch-mode"
+  - "cat target/site/jacoco/index.html"
+  - "mv target/*.jar ."
+  artifacts:
+      paths:
+        - "*.jar"
+      expire_in: 1d
+
+
