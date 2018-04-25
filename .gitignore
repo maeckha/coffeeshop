@@ -1,5 +1,9 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
+.mvn
+.mvn.cmd
+application.log 
+geckodriver
 
 ### STS ###
 .apt_generated
