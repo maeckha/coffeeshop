@@ -99,7 +99,7 @@ public class OrderIT {
         .accept(MediaType.TEXT_HTML)
         .cookie(new Cookie("cart-id", "1")))
         .andExpect(model().attributeExists("title", "cart"))
-        .andExpect(view().name("create-order"))
+        .andExpect(view().name("order-create"))
         .andExpect(status().isOk())
         .andDo(print());
   }
