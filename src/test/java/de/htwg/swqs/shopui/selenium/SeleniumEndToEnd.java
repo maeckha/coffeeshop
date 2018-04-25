@@ -33,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SeleniumAnotherIT {
+public class SeleniumEndToEnd {
 
   @LocalServerPort
   private int port;
