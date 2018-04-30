@@ -61,7 +61,7 @@ public class OrderController {
   @PostMapping("/order")
   public String createOrderForVerification(
       @CookieValue("cart-id") long cartId,
-      @ModelAttribute OrderWrapper orderWrapper,
+      @RequestBody OrderWrapper orderWrapper,
       Model model
   ) {
     ShoppingCart cart = this.cartService.getShoppingCart(cartId);
@@ -70,6 +70,7 @@ public class OrderController {
         createOrderItemListFromShoppingCart(cart),
         orderWrapper.getCurrency()
     );
+    model.addAttribute("title", "E-Commerce Shop | Validate Order");
     model.addAttribute("order", createdOrder);
 
     return "order-validate";

@@ -16,12 +16,13 @@ public class InsertDataAtStartup implements ApplicationListener<ApplicationReady
 
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
-    if (catalogRepository.count() > 0) {
-      System.out.println(catalogRepository.count());
-      return;
+    if (catalogRepository.count() == 0) {
+      catalogRepository.save(new Product(1L, "Name for the product", "Description for the product", new BigDecimal("3.14")));
+      catalogRepository.save(new Product(2L, "Another Name for another product", "And the description", new BigDecimal("2.22")));
+    } else {
+      System.out.println("Amount of products already available in database: " + catalogRepository.count());
     }
 
-    catalogRepository.save(new Product(1L, "Name for the product", "Description for the product", new BigDecimal("3.14")));
-    catalogRepository.save(new Product(2L, "Another Name for another product", "And the description", new BigDecimal("2.22")));
+
   }
 }
