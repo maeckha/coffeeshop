@@ -17,6 +17,7 @@ import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.order.mail.EmailService;
 import de.htwg.swqs.order.model.CustomerInfo;
+import de.htwg.swqs.order.model.Order;
 import de.htwg.swqs.order.payment.CurrencyConverterService;
 import de.htwg.swqs.order.repository.OrderRepository;
 import de.htwg.swqs.order.service.OrderService;
@@ -27,7 +28,9 @@ import de.htwg.swqs.shopui.controller.OrderController;
 import de.htwg.swqs.shopui.util.OrderWrapper;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Map;
 import javax.servlet.http.Cookie;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +40,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -127,15 +132,24 @@ public class OrderIT {
     String jsonRequestBody = mapper.writeValueAsString(orderWrapper);
 
     // execute & verify
-    this.mvc.perform(post("/order")
+    MvcResult result = this.mvc.perform(post("/order")
         .cookie(new Cookie("cart-id", "1"))
         .content(jsonRequestBody)
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
+        .contentType(MediaType.APPLICATION_JSON_UTF8))
         .andExpect(status().isOk())
         //.andExpect(content().json("{'json': 'response'}"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.customerInfo.email").value("max@muster.de"));
+        //.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+        //.andExpect(MockMvcResultMatchers.jsonPath("$.customerInfo.email").value("max@muster.de"));
+        .andExpect(view().name("order-validate"))
+        .andExpect(model().attributeExists("title", "order"))
+        .andReturn();
+
+    Map<String, Object> modelAndViewMap = result.getModelAndView().getModel();
+    Order createdOrder = (Order) modelAndViewMap.get("order");
+
+    Assert.assertTrue(customerInfo.compareTo(createdOrder.getCustomerInfo()) == 0);
+    Assert.assertEquals(dummyCart.getItemsInShoppingCart().size(),
+        createdOrder.getOrderItems().size());
+    Assert.assertEquals(currency.getCurrencyCode(), createdOrder.getCostTotal().getCurrency());
   }
 }
