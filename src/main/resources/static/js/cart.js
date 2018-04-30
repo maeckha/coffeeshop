@@ -16,15 +16,12 @@ function redirectToOrderPage() {
 
 function removeItem(itemId) {
   var cartId = Cookies.get("cart-id");
-  console.log("itemId", itemId);
   // get the needed infos for the controller call
-  console.log("quantity-" + itemId);
   var quantity = document.getElementById("quantity-" + itemId).innerHTML;
   var productId = document.getElementById("product-id-" + itemId).innerHTML;
 
   // send item to server
   var requestUrl = "/carts/remove";
-  console.log(requestUrl);
   var xhr = new XMLHttpRequest();
   xhr.open("POST", requestUrl);
 
@@ -33,7 +30,9 @@ function removeItem(itemId) {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         // the response is the updated shopping cart
-        console.log("xhr response", xhr.responseText);
+        sessionStorage.setItem('amountOfItems',
+            (sessionStorage.getItem('amountOfItems') - quantity)
+        );
         location.reload();
       } else {
         console.error("Status = " + xhr.status);

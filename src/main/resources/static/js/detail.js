@@ -6,15 +6,22 @@
  *
  */
 
-
 // eventlistener
-document.getElementById("addButton").addEventListener('click',
-    checkIfCartExist);
+// document.getElementById("addButton").addEventListener('click', checkIfCartExist);
 
 /**
  * start point when the user clicks the 'add' button
  */
 function checkIfCartExist() {
+
+  // first check if the input is valid
+  if (!document.getElementById("quantity").checkValidity()) {
+    // input is not valid
+    return false;
+  }
+
+  // the value is valid, we can go on
+
   // check if cart already exists
   if (Cookies.get('cart-id') === undefined) {
     // cart does not exist -> create!
@@ -49,6 +56,8 @@ function createShoppingCartAndSetId() {
   };
 
   xhr.send();
+  sessionStorage.setItem('amountOfItems', 0);
+
 }
 
 /**
@@ -96,17 +105,14 @@ function updateAndShowCartPreview(addedQuantity) {
   document.getElementById("nav-cart").style.pointerEvents = "all";
   document.getElementById("nav-cart").style.opacity = 1;
 
-  // update the quantity in the shopping cart
-  shoppingCartQuantityView = document.getElementById("shopping-cart-quantity");
-  var currentQuantity = shoppingCartQuantityView.textContent;
-  console.log("currentQuantity", currentQuantity);
-  console.log("typeof currentQuantity", typeof currentQuantity);
+  // calculate new quantity of items
+  var currentQuantity = sessionStorage.getItem('amountOfItems');
+  var newQuantity = parseInt(currentQuantity) + parseInt(addedQuantity);
 
-  console.log("addedQuantity", addedQuantity);
-  shoppingCartQuantityView.textContent = (parseInt(currentQuantity) + parseInt(
-      addedQuantity));
+  // update the amount of items in the shopping cart icon and the global variable
+  document.getElementById("shopping-cart-quantity").textContent = newQuantity;
+  sessionStorage.setItem('amountOfItems', newQuantity);
+
+  // show the cart icon
   document.getElementById("shopping-cart-wrapper").style.opacity = 1;
-  setTimeout(function () {
-    document.getElementById("shopping-cart-wrapper").style.opacity = 0;
-  }, 5000);
 }
