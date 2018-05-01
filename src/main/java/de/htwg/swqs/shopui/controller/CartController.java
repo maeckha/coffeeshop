@@ -3,11 +3,12 @@ package de.htwg.swqs.shopui.controller;
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.shopui.util.ItemRequestWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("carts/")
 public class CartController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CartController.class);
 
   private CartService cartService;
 
@@ -30,6 +33,10 @@ public class CartController {
   public long createNewCartAndReturnId() {
 
     ShoppingCart newCart = this.cartService.createNewShoppingCart();
+
+    LOGGER.debug("Available ShoppingCarts:");
+    LOGGER.debug(this.cartService.getAllShoppingCartsAsString());
+
     return newCart.getId();
   }
 
@@ -71,7 +78,7 @@ public class CartController {
       @CookieValue("cart-id") long cartId,
       @RequestBody ItemRequestWrapper itemRequestWrapper) {
 
-    return this.cartService.removeItemFromCart((long) cartId, itemRequestWrapper.getProductId(),
+    return this.cartService.removeItemFromCart( cartId, itemRequestWrapper.getProductId(),
         itemRequestWrapper.getQuantity());
   }
 
