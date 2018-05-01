@@ -1,4 +1,3 @@
-
 /* ################################################# */
 /*                                                   */
 /*                      GENERAL                      */
@@ -87,7 +86,6 @@ footer {
   background-color: rgb(217, 229, 236);
 }
 
-
 /* ################################################# */
 /*                                                   */
 /*                      SUBPAGES                     */
@@ -95,21 +93,21 @@ footer {
 /* ################################################# */
 
 .order-wrapper form div {
-  margin: 1em 0em;
+  margin: 1em 0;
 }
+
 .order-wrapper form div label {
   display: inline-block;
   width: 12em;
 }
+
 .order-wrapper form div button {
   cursor: pointer;
   background-color: lightgray;
   border: none;
   padding: 1em;
-  margin: 1em 0em;
+  margin: 1em 0;
 }
-
-
 
 .catalog-wrapper .cards {
   max-width: 960px;
@@ -124,10 +122,10 @@ footer {
   background-color: lightgray;
   transition: background-color 500ms ease;
 }
+
 .catalog-wrapper article:hover {
   background-color: #f7f7f7
 }
-
 
 .catalog-wrapper article a {
   text-decoration: none;
@@ -140,8 +138,17 @@ footer {
   background-color: rgba(255, 255, 255, 0.2);
   padding: 1em;
 }
+
 .catalog-wrapper article .artnr {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.2);
-  padding-left: 1em;
+  padding: 1em;
+}
+
+.error-wrapper p {
+  font-family: helvetica, sans-serif;
+  margin-bottom: 1em;
+  color: #334152;
+  font-size: 2em;
+  margin-top: -1em;
 }
