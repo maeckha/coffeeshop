@@ -35,7 +35,7 @@ public class CartController {
     ShoppingCart newCart = this.cartService.createNewShoppingCart();
 
     LOGGER.debug("Available ShoppingCarts:");
-    LOGGER.debug(this.cartService.getAllShoppingCartsAsString());
+    LOGGER.debug(this.cartService.shoppingCartsToString());
 
     return newCart.getId();
   }
@@ -78,7 +78,7 @@ public class CartController {
       @CookieValue("cart-id") long cartId,
       @RequestBody ItemRequestWrapper itemRequestWrapper) {
 
-    return this.cartService.removeItemFromCart( cartId, itemRequestWrapper.getProductId(),
+    return this.cartService.removeItemFromCart(cartId, itemRequestWrapper.getProductId(),
         itemRequestWrapper.getQuantity());
   }
 
