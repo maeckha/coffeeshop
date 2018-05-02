@@ -19,6 +19,7 @@ import de.htwg.swqs.order.mail.EmailService;
 import de.htwg.swqs.order.model.CustomerInfo;
 import de.htwg.swqs.order.model.Order;
 import de.htwg.swqs.order.payment.CurrencyConverterService;
+import de.htwg.swqs.order.payment.PaymentMethodService;
 import de.htwg.swqs.order.repository.OrderRepository;
 import de.htwg.swqs.order.service.OrderService;
 import de.htwg.swqs.order.service.OrderServiceImpl;
@@ -34,6 +35,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -61,6 +63,8 @@ public class OrderIT {
   private CartService cartService;
 
   @Autowired
+  private PaymentMethodService paymentMethodService;
+  @Autowired
   private OrderRepository orderRepository;
   @Autowired
   private ShippingCostService shippingCostService;
@@ -82,7 +86,8 @@ public class OrderIT {
         this.currencyConverterService,
         this.emailService
     );
-    this.orderController = new OrderController(this.orderService, this.cartService);
+    this.orderController = new OrderController(this.orderService, this.cartService,
+        this.paymentMethodService);
 
     // because we use the standalone version of the mock mvc builder we need also a viewresolver
     // https://myshittycode.com/2014/01/17/mockmvc-circular-view-path-view-would-dispatch-back-to-the-current-handler-url-view-again/

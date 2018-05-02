@@ -1,7 +1,6 @@
 package de.htwg.swqs.shopui.util;
 
 import de.htwg.swqs.cart.utils.ShoppingCartException;
-import de.htwg.swqs.cart.utils.ShoppingCartItemWrongQuantityException;
 import de.htwg.swqs.catalog.utils.ProductNotFoundException;
 import de.htwg.swqs.order.util.OrderNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ public class ErrorHandler {
   @ExceptionHandler(value = {
       ProductNotFoundException.class,
       ShoppingCartException.class,
-      ShoppingCartItemWrongQuantityException.class,
       OrderNotFoundException.class}
   )
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)

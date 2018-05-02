@@ -32,7 +32,7 @@ public class HelperUtil {
     itemTwo.setProduct(createDummyProduct(2L));
 
     List<ShoppingCartItem> itemList = Arrays.asList(itemOne, itemTwo);
-    s.setItemsInShoppingCartAsList(itemList);
+    s.setItemsInShoppingCart(itemList);
 
     BigDecimal cartTotalSum = new BigDecimal("0.00");
     for (ShoppingCartItem item : itemList) {

@@ -59,25 +59,50 @@
         <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].productId}"/></td>
         <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].quantity}"/></td>
         <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].priceEuro}"/></td>
-        <td><span th:text="${item.quantity * item.priceEuro}"></span></td>
+        <td><input type="text" readonly th:value="${item.quantity * item.priceEuro}"/></td>
       </tr>
       </tbody>
     </table>
 
     <hr>
 
-    <p>Shipping costs (in Euro): <input th:field="*{costShipping}"/></p>
+    <h3>Cost</h3>
+
+    <div>
+      <label th:for="order.costShipping">Shipping costs (in Euro):</label>
+      <input readonly type="text" th:field="*{costShipping}"/>
+    </div>
+
+    <div>
+      <label>Total costs (in <span th:text="${order.costTotal.getCurrency()}">EURO</span>)
+      </label>
+      <input type="text" readonly th:value="${order.costTotal.getAmount().toPlainString()}"></input>
+    </div>
+
+    <hr>
+
+    <h3>Payment</h3>
+
+    <div>
+      <label th:for="order.paymentMethod">Payment method</label>
+      <select th:field="*{paymentMethod}">
+        <option th:each="paymentMethodOption : ${paymentMethods}" th:value="${paymentMethodOption}"
+                th:text="${paymentMethodOption}"></option>
+      </select>
+    </div>
+
+    <hr>
 
     <input type="hidden" th:field="*{costTotal.amount}"/>
     <input type="hidden" th:field="*{costTotal.currency}"/>
-
-    <p>Total costs (in <span th:text="${order.costTotal.getCurrency()}"></span>):
-      <span th:text="${order.costTotal.getAmount().toPlainString()}"></span></p>
-
     <input type="hidden" th:field="*{orderDate}"/>
-    <button id="submit-order-verify" type="submit">Submit order</button>
-    <button type="reset">Cancel</button>
-    <button type="button" onclick="cancelOrder()">Cancel</button>
+
+
+    <div>
+      <button id="submit-order-verify" type="submit">Submit order</button>
+      <button type="reset">Cancel</button>
+      <button type="button" onclick="cancelOrder()">Cancel</button>
+    </div>
 
   </form>
 

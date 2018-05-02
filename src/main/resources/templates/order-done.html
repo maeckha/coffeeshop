@@ -4,10 +4,23 @@
 <div th:replace="/fragments/header :: header"></div>
 <div th:replace="/fragments/header :: navbar"></div>
 <body>
-<main class="order-wrapper">
+<main class="order-done-wrapper">
 
-  <h1>Create new order</h1>
+  <h1>Thank you for your order!</h1>
+  <h1>:)</h1>
 
+  <hr>
+
+  <p>We sent a mail to our fake mail server, you can verify the mail sending when you look to
+    following page:
+
+    <th:block th:with="senderAddress=${'webshop@swqs.org'}">
+      <a th:href="@{https://www.smtpbucket.com/emails(sender=${senderAddress}, recipient=${mailAddress})}">
+        www.smtpbucket.com
+      </a>
+    </th:block>
+
+  </p>
 </main>
 <div th:replace="/fragments/footer :: footer"></div>
 </body>

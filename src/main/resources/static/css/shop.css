@@ -25,6 +25,7 @@ h1 {
 
 h3 {
   font-size: 2em;
+  margin-top: 1em;
 }
 
 /* ################################################# */
@@ -92,22 +93,37 @@ footer {
 /*                                                   */
 /* ################################################# */
 
-.order-wrapper form div {
+button {
+  cursor: pointer;
+  background-color: lightgray;
+  border: none;
+  padding: 1em;
+  margin: 1em 0;
+  transition: color 400ms ease, background-color 250ms ease;
+}
+
+button:hover {
+  color: white;
+  background-color: #334152;
+}
+
+form div {
   margin: 1em 0;
 }
-
-.order-wrapper form div label {
-  display: inline-block;
-  width: 12em;
-}
-
-.order-wrapper form div button {
+button {
   cursor: pointer;
   background-color: lightgray;
   border: none;
   padding: 1em;
   margin: 1em 0;
 }
+
+form div label {
+  display: inline-block;
+  width: 12em;
+}
+
+
 
 .catalog-wrapper .cards {
   max-width: 960px;
@@ -151,4 +167,16 @@ footer {
   color: #334152;
   font-size: 2em;
   margin-top: -1em;
+}
+
+.order-done-wrapper p {
+  margin-top: 2em;
+}
+
+.order-done-wrapper a {
+  text-decoration: navajowhite;
+  background-color: #334152;
+  color: white;
+  border-radius: 0.2em;
+  padding: 0.2em 0.5em;
 }
