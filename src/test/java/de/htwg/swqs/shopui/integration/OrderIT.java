@@ -6,13 +6,11 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.order.mail.EmailService;
@@ -27,6 +25,7 @@ import de.htwg.swqs.order.shippingcost.ShippingCostService;
 import de.htwg.swqs.shopui.HelperUtil;
 import de.htwg.swqs.shopui.controller.OrderController;
 import de.htwg.swqs.shopui.util.OrderWrapper;
+import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Map;
@@ -35,21 +34,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureTestDatabase
 public class OrderIT {
 
   private MockMvc mvc;
@@ -132,19 +131,9 @@ public class OrderIT {
     orderWrapper.setCurrency(currency);
     orderWrapper.setCustomerInfo(customerInfo);
 
-    // convert the java object to json string
-    ObjectMapper mapper = new ObjectMapper();
-    String jsonRequestBody = mapper.writeValueAsString(orderWrapper);
-
-    // execute & verify
-    MvcResult result = this.mvc.perform(post("/order")
-        .cookie(new Cookie("cart-id", "1"))
-        .content(jsonRequestBody)
-        .contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(status().isOk())
-        //.andExpect(content().json("{'json': 'response'}"))
-        //.andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-        //.andExpect(MockMvcResultMatchers.jsonPath("$.customerInfo.email").value("max@muster.de"));
+    MvcResult result = this.mvc.perform(MockMvcRequestBuilderUtils.postForm("/order", orderWrapper)
+        .cookie(new Cookie("cart-id", "1")))
+        .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(view().name("order-validate"))
         .andExpect(model().attributeExists("title", "order"))
         .andReturn();

@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * In this test suite we only test the real candidate for the cart service in the cart view
- * controller, the other DOC are just mock objects
+ * controller, the other DOCs are just mock objects.
+ *
+ * We don't use the html sites for navigation, just the controller methods.
  */
 public class CartViewControllerTest {
 

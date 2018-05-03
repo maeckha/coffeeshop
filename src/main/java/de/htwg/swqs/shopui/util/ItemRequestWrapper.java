@@ -1,8 +1,12 @@
 package de.htwg.swqs.shopui.util;
 
+import javax.validation.constraints.NotNull;
+
 public class ItemRequestWrapper {
 
+  @NotNull
   private long productId;
+  @NotNull
   private int quantity;
 
   public ItemRequestWrapper() {

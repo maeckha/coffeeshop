@@ -1,6 +1,5 @@
 package de.htwg.swqs.shopui.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.order.model.Order;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class OrderController {
@@ -66,7 +64,7 @@ public class OrderController {
   @PostMapping("/order")
   public String createOrderForVerification(
       @CookieValue("cart-id") long cartId,
-      OrderWrapper orderWrapper,
+      @Valid OrderWrapper orderWrapper,
       Model model
   ) {
     ShoppingCart cart = this.cartService.getShoppingCart(cartId);

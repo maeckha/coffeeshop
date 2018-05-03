@@ -23,7 +23,6 @@ public class HomeStepDefs {
 
   private static int responseStatus;
 
-
   @When("^the client calls /$")
   public void the_client_calls() throws Throwable {
     HomeController homeController = new HomeController();
