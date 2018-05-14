@@ -83,9 +83,6 @@ public class CatalogIT {
         .andDo(print());
   }
 
-  @Test
-  public void retrieveSpecificProductById() {
-
-  }
+  // todo: write test for retrieving just a single product by id
 
 }

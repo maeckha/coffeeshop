@@ -6,11 +6,8 @@
  *
  */
 
-// eventlistener
-// document.getElementById("addButton").addEventListener('click', checkIfCartExist);
-
 /**
- * start point when the user clicks the 'add' button
+ * Start point when the user clicks the 'add' button.
  */
 function checkIfCartExist() {
 
@@ -32,9 +29,8 @@ function checkIfCartExist() {
 }
 
 /**
- * if user got already no shopping cart,
- * we must retrieve a new id from the backend and set
- * this as cookie
+ * If the user got no shopping cart, we must retrieve a new id from the
+ * backend and set this as cookie.
  */
 function createShoppingCartAndSetId() {
   // var requestUrl = document.location.host + "/carts/create";
@@ -50,6 +46,7 @@ function createShoppingCartAndSetId() {
         addItemToCart();
 
       } else {
+        alert("Error while creating a new shopping cart!");
         console.error("Status = " + xhr.status);
       }
     }
@@ -61,7 +58,7 @@ function createShoppingCartAndSetId() {
 }
 
 /**
- * get the infos of the product and the quantity and
+ * Get the infos of the product and the quantity and
  * send this to backend (addItemToCart(...)
  */
 function addItemToCart() {
@@ -85,6 +82,7 @@ function addItemToCart() {
         updateAndShowCartPreview(quantity);
 
       } else {
+        alert("Error while adding the item!");
         console.error("Status = " + xhr.status);
       }
     }
@@ -95,8 +93,7 @@ function addItemToCart() {
 }
 
 /**
- * Update the amount of items in the shopping cart icon
- *
+ * Update the amount of items in the shopping cart icon on the right side.
  *
  * @param addedQuantity The quantity of items the user added
  */
@@ -109,7 +106,8 @@ function updateAndShowCartPreview(addedQuantity) {
   var currentQuantity = sessionStorage.getItem('amountOfItems');
   var newQuantity = parseInt(currentQuantity) + parseInt(addedQuantity);
 
-  // update the amount of items in the shopping cart icon and the global variable
+  // update the amount of items in the shopping cart icon
+  // and the global variable in the session storage
   document.getElementById("shopping-cart-quantity").textContent = newQuantity;
   sessionStorage.setItem('amountOfItems', newQuantity);
 

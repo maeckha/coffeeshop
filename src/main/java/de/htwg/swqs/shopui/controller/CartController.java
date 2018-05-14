@@ -2,7 +2,7 @@ package de.htwg.swqs.shopui.controller;
 
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
-import de.htwg.swqs.shopui.util.ItemRequestWrapper;
+import de.htwg.swqs.shopui.util.ItemWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +62,10 @@ public class CartController {
   public @ResponseBody
   ShoppingCart addItemToCart(
       @CookieValue("cart-id") long cartId,
-      @RequestBody ItemRequestWrapper itemRequestWrapper) {
+      @RequestBody ItemWrapper itemWrapper) {
 
-    return this.cartService.addItemToCart(cartId, itemRequestWrapper.getProductId(),
-        itemRequestWrapper.getQuantity());
+    return this.cartService.addItemToCart(cartId, itemWrapper.getProductId(),
+        itemWrapper.getQuantity());
   }
 
   @PostMapping(
@@ -76,10 +76,10 @@ public class CartController {
   public @ResponseBody
   ShoppingCart removeItemFromCart(
       @CookieValue("cart-id") long cartId,
-      @RequestBody ItemRequestWrapper itemRequestWrapper) {
+      @RequestBody ItemWrapper itemWrapper) {
 
-    return this.cartService.removeItemFromCart(cartId, itemRequestWrapper.getProductId(),
-        itemRequestWrapper.getQuantity());
+    return this.cartService.removeItemFromCart(cartId, itemWrapper.getProductId(),
+        itemWrapper.getQuantity());
   }
 
 }

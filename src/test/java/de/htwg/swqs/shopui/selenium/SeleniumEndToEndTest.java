@@ -36,7 +36,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
-public class SeleniumEndToEnd {
+public class SeleniumEndToEndTest {
 
   @LocalServerPort
   private int port;
@@ -151,8 +151,10 @@ public class SeleniumEndToEnd {
   @Test
   public void checkAllInfoAreShowedAndSubmitOrder() {
     //setup
+
     long idFromProductWeWantToAdd = this.catalogRepository.findAll().get(0).getId();
     int amountWeWantToAdd = 2;
+
     this.productDetailPage = new ProductDetailPage(this.config, idFromProductWeWantToAdd);
     this.productDetailPage.navigate();
     this.productDetailPage.addItemToCart(amountWeWantToAdd);

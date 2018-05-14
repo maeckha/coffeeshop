@@ -4,7 +4,7 @@ import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.model.ShoppingCartItem;
 import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.order.model.CustomerInfo;
-import de.htwg.swqs.shopui.util.ItemRequestWrapper;
+import de.htwg.swqs.shopui.util.ItemWrapper;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -23,15 +23,7 @@ public class HelperUtil {
   public static ShoppingCart createDummyShoppingCart() {
     ShoppingCart s = new ShoppingCart();
 
-    ShoppingCartItem itemOne = new ShoppingCartItem();
-    itemOne.setQuantity(3);
-    itemOne.setProduct(createDummyProduct(1L));
-
-    ShoppingCartItem itemTwo = new ShoppingCartItem();
-    itemTwo.setQuantity(12);
-    itemTwo.setProduct(createDummyProduct(2L));
-
-    List<ShoppingCartItem> itemList = Arrays.asList(itemOne, itemTwo);
+    List<ShoppingCartItem> itemList = createDummyShoppingItemList();
     s.setItemsInShoppingCart(itemList);
 
     BigDecimal cartTotalSum = new BigDecimal("0.00");
@@ -42,6 +34,18 @@ public class HelperUtil {
     }
     s.setCartTotalSum(cartTotalSum);
     return s;
+  }
+
+  public static List<ShoppingCartItem> createDummyShoppingItemList() {
+    ShoppingCartItem itemOne = new ShoppingCartItem();
+    itemOne.setQuantity(3);
+    itemOne.setProduct(createDummyProduct(1L));
+
+    ShoppingCartItem itemTwo = new ShoppingCartItem();
+    itemTwo.setQuantity(12);
+    itemTwo.setProduct(createDummyProduct(2L));
+
+    return Arrays.asList(itemOne, itemTwo);
   }
 
   public static CustomerInfo createDummyCustomerInfo() {
@@ -56,8 +60,8 @@ public class HelperUtil {
     return c;
   }
 
-  public static ItemRequestWrapper createDummyItemRequestWrapper(long id) {
-    ItemRequestWrapper i = new ItemRequestWrapper();
+  public static ItemWrapper createDummyItemRequestWrapper(long id) {
+    ItemWrapper i = new ItemWrapper();
     i.setProductId(id);
     i.setQuantity(3);
     return i;

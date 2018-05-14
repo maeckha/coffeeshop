@@ -180,3 +180,14 @@ form div label {
   border-radius: 0.2em;
   padding: 0.2em 0.5em;
 }
+
+.order-wrapper #email-hint {
+  color: gray;
+  width: 30em;
+  margin-bottom: 1em;
+}
+
+.order-wrapper #email-hint a {
+  text-decoration: underline;
+  color: gray;
+}

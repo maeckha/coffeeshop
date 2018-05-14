@@ -30,6 +30,7 @@ public class HomeStepDefs {
 
     MvcResult result = this.mvc.perform(get("/"))
         .andExpect(view().name("index")).andReturn();
+
     MockHttpServletResponse response = result.getResponse();
     responseStatus = response.getStatus();
   }

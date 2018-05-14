@@ -25,11 +25,15 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
     if (catalogRepository.count() == 0) {
-      catalogRepository.save(new Product(1L, "Name for the product", "Description for the product",
-          new BigDecimal("3.14")));
+      catalogRepository
+          .save(new Product(10001L, "Name for the product", "Description for the product",
+              new BigDecimal("3.14")));
       catalogRepository.save(
-          new Product(2L, "Another Name for another product", "And the description",
+          new Product(10002L, "Another Name for another product", "And the description",
               new BigDecimal("2.22")));
+      catalogRepository.save(
+          new Product(10003L, "Product name", "And the description",
+              new BigDecimal("42.99")));
       catalogRepository.flush();
     } else {
       LOGGER

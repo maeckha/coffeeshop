@@ -85,7 +85,7 @@
 
     <div>
       <label th:for="order.paymentMethod">Payment method</label>
-      <select th:field="*{paymentMethod}">
+      <select required th:field="*{paymentMethod}">
         <option th:each="paymentMethodOption : ${paymentMethods}" th:value="${paymentMethodOption}"
                 th:text="${paymentMethodOption}"></option>
       </select>

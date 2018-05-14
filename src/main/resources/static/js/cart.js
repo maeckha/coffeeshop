@@ -8,11 +8,10 @@
 
 
 document.getElementById("order-button").addEventListener('click',
-    redirectToOrderPage);
+    function () {
+      window.location.href = "../order";
+    });
 
-function redirectToOrderPage() {
-  window.location.href = "../order";
-}
 
 function removeItem(itemId) {
   var cartId = Cookies.get("cart-id");
@@ -35,6 +34,7 @@ function removeItem(itemId) {
         );
         location.reload();
       } else {
+        alert("Error while removing item!");
         console.error("Status = " + xhr.status);
       }
     }

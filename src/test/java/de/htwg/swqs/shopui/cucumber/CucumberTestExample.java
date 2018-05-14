@@ -13,6 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
     strict = true
 )
 public class CucumberTestExample {
-
+  // must be empty
 }
 

@@ -15,7 +15,7 @@ import de.htwg.swqs.cart.service.CartServiceImpl;
 import de.htwg.swqs.catalog.service.CatalogService;
 import de.htwg.swqs.shopui.HelperUtil;
 import de.htwg.swqs.shopui.controller.CartController;
-import de.htwg.swqs.shopui.util.ItemRequestWrapper;
+import de.htwg.swqs.shopui.util.ItemWrapper;
 import javax.servlet.http.Cookie;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,7 +94,7 @@ public class CartIT {
         .andReturn();
     long idFromCart = Long.parseLong(result.getResponse().getContentAsString());
 
-    ItemRequestWrapper[] requestWrappers = addItemsToCart(idFromCart);
+    ItemWrapper[] requestWrappers = addItemsToCart(idFromCart);
 
     // verify
     this.mvc.perform(get("/carts/get")
@@ -144,7 +144,7 @@ public class CartIT {
     long idFromCart = Long.parseLong(result.getResponse().getContentAsString());
 
     // insert two items to cart
-    ItemRequestWrapper[] requestWrappers = addItemsToCart(idFromCart);
+    ItemWrapper[] requestWrappers = addItemsToCart(idFromCart);
 
     // convert the java object to json string
     ObjectMapper mapper = new ObjectMapper();
@@ -171,16 +171,16 @@ public class CartIT {
    * addItemToShoppingCart(), clearShoppingCartSuccessful() and removeItemFromShoppingCart()
    * function.
    */
-  private ItemRequestWrapper[] addItemsToCart(long idFromCart) throws Exception {
+  private ItemWrapper[] addItemsToCart(long idFromCart) throws Exception {
 
     // first item  (to clear empty cart is not so difficult)
-    ItemRequestWrapper itemRequestWrapperOne = HelperUtil.createDummyItemRequestWrapper(12L);
-    when(this.catalogService.getProductById(itemRequestWrapperOne.getProductId()))
-        .thenReturn(HelperUtil.createDummyProduct(itemRequestWrapperOne.getProductId()));
+    ItemWrapper itemWrapperOne = HelperUtil.createDummyItemRequestWrapper(12L);
+    when(this.catalogService.getProductById(itemWrapperOne.getProductId()))
+        .thenReturn(HelperUtil.createDummyProduct(itemWrapperOne.getProductId()));
 
     // convert the java object to json string
     ObjectMapper mapper = new ObjectMapper();
-    String itemWrapperOneJson = mapper.writeValueAsString(itemRequestWrapperOne);
+    String itemWrapperOneJson = mapper.writeValueAsString(itemWrapperOne);
 
     // add first item to cart
     this.mvc.perform(post("/carts/add")
@@ -191,10 +191,10 @@ public class CartIT {
         .andExpect(status().isOk());
 
     // second item
-    ItemRequestWrapper itemRequestWrapperTwo = HelperUtil.createDummyItemRequestWrapper(24L);
-    when(this.catalogService.getProductById(itemRequestWrapperTwo.getProductId()))
-        .thenReturn(HelperUtil.createDummyProduct(itemRequestWrapperTwo.getProductId()));
-    String itemWrapperTwoJson = mapper.writeValueAsString(itemRequestWrapperTwo);
+    ItemWrapper itemWrapperTwo = HelperUtil.createDummyItemRequestWrapper(24L);
+    when(this.catalogService.getProductById(itemWrapperTwo.getProductId()))
+        .thenReturn(HelperUtil.createDummyProduct(itemWrapperTwo.getProductId()));
+    String itemWrapperTwoJson = mapper.writeValueAsString(itemWrapperTwo);
 
     // add second item to cart
     this.mvc.perform(post("/carts/add")
@@ -204,6 +204,6 @@ public class CartIT {
         .content(itemWrapperTwoJson))
         .andExpect(status().isOk());
 
-    return new ItemRequestWrapper[]{itemRequestWrapperOne, itemRequestWrapperTwo};
+    return new ItemWrapper[]{itemWrapperOne, itemWrapperTwo};
   }
 }

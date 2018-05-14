@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,7 +28,7 @@ public class CatalogController {
     this.catalogService = catalogService;
   }
 
-  @RequestMapping(value = {"/", ""})
+  @GetMapping(value = {"/", ""})
   public String getAllProducts(Model model) {
     model.addAttribute("title", "E-Commerce Shop | Product Catalog");
     try {
@@ -43,7 +44,7 @@ public class CatalogController {
     return "catalog";
   }
 
-  @RequestMapping(value = "/{id}")
+  @GetMapping(value = "/{id}")
   public String getProductById(@PathVariable long id, Model model, HttpServletResponse response) {
     Product product = this.catalogService.getProductById(id);
     model.addAttribute("title", "E-Commerce Shop | " + product.getName());

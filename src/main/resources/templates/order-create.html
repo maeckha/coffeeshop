@@ -11,6 +11,11 @@
   <form action="#" th:action="@{/order}" th:object="${orderwrapper}" method="post">
 
     <div>
+      <p id="email-hint">
+        Note: Please do not use your real email address, as we send this address to a <a
+          href="https://www.smtpbucket.com/" target="_blank">fake smtp
+        server</a> hat is fully public.
+      </p>
       <label th:for="customerInfo.email">Email address</label>
       <input type="text" th:field="*{customerInfo.email}" th:required="required"/>
     </div>

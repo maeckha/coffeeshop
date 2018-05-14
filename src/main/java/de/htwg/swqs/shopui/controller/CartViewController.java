@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,8 +24,8 @@ public class CartViewController {
     this.cartService = cartService;
   }
 
-  @RequestMapping(value = {"/show-cart"})
-  public String showShoppingCart(@CookieValue("cart-id") long cartId, Model model) {
+  @GetMapping(value = {"/show-cart"})
+  public String getShoppingCart(@CookieValue("cart-id") long cartId, Model model) {
     model.addAttribute("title", "E-Commerce Shop | Shopping cart overview");
     model.addAttribute("shoppingCart", this.cartService.getShoppingCart(cartId));
     return "shoppingcart";

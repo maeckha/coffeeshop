@@ -18,9 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * In this test suite we only test the real candidate for the cart service in the cart view
- * controller, the other DOCs are just mock objects.
- *
+ * In this test suite we only test the CartViewController, the DOC are just a mock.
  * We don't use the html sites for navigation, just the controller methods.
  */
 public class CartViewControllerTest {
@@ -48,8 +46,6 @@ public class CartViewControllerTest {
         .andDo(print());
   }
 
-  @Test
-  public void testCartViewControllerWithoutCookieReturnsError() throws Exception {
 
-  }
+  // public void testCartViewControllerWithoutCookieReturnsError() throws Exception { }
 }
