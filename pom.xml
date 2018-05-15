@@ -41,11 +41,17 @@
       <artifactId>mysql-connector-java</artifactId>
       <scope>runtime</scope>
     </dependency>
+    <!-- dependency of the catalog and order component -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
-
+    <!-- dependency of the order component -->
+    <dependency>
+      <groupId>org.simplejavamail</groupId>
+      <artifactId>simple-java-mail</artifactId>
+      <version>5.0.2</version>
+    </dependency>
     <!-- TESTING -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -88,6 +94,7 @@
       <version>2.0.0</version>
       <scope>test</scope>
     </dependency>
+
 
     <!-- DEPENDED-ON COMPONENTS -->
     <dependency>
