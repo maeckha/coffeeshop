@@ -15,7 +15,7 @@ public class SeleniumConfig {
   private URL base;
 
 
-  public SeleniumConfig(int port) throws MalformedURLException{
+  public SeleniumConfig(int port) throws MalformedURLException {
 
     FirefoxBinary firefoxBinary = new FirefoxBinary();
     //firefoxBinary.addCommandLineOptions("--headless");
@@ -31,7 +31,13 @@ public class SeleniumConfig {
 
   static {
     // geckodriver must be placed in the root directory of the project (see README.md)
-    System.setProperty("webdriver.gecko.driver", "geckodriver");
+    String operatingSystem = System.getProperty("os.name", "generic").toLowerCase();
+    System.out.println(operatingSystem);
+    if (operatingSystem.contains("win")) {
+      System.setProperty("webdriver.gecko.driver", "geckodriver.exe");
+    } else {
+      System.setProperty("webdriver.gecko.driver", "geckodriver");
+    }
   }
 
 
