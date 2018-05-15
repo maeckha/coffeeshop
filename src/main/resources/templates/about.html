@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragments/header :: head"></div>
-<div th:replace="/fragments/header :: header"></div>
-<div th:replace="/fragments/header :: navbar"></div>
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
 <body>
 
 <style>
@@ -22,8 +22,7 @@
 
   <p>The entire source code can be viewed and downloaded from the university's Gitlab server.
     Alternatively, access via Github is also possible. Only open source libraries and tools were
-    used,
-    so that the application can be run by everyone without restrictions.</p>
+    used, so that the application can be run by everyone without restrictions.</p>
 
   <hr>
 
@@ -39,6 +38,6 @@
 </main>
 
 
-<div th:replace="/fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
