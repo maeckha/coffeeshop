@@ -3,11 +3,17 @@ package de.htwg.swqs.shopui.selenium;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class SeleniumConfig {
 
@@ -22,9 +28,11 @@ public class SeleniumConfig {
 
     FirefoxOptions firefoxOptions = new FirefoxOptions();
     firefoxOptions.setBinary(firefoxBinary);
+    firefoxOptions.addPreference("--log", "error");
+
     this.driver = new FirefoxDriver(firefoxOptions);
 
-    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     this.base = new URL("http://localhost:" + port);
 
   }
@@ -42,7 +50,19 @@ public class SeleniumConfig {
 
 
   public void close() {
-    driver.close();
+    try {
+      driver.quit();
+    } catch (UnhandledAlertException f) {
+      try {
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        System.out.println("Alert data: " + alertText);
+        alert.accept();
+      } catch (NoAlertPresentException e) {
+        e.printStackTrace();
+      }
+    }
+
   }
 
   public void navigateTo(String url) {

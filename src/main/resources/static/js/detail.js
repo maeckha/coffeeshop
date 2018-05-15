@@ -84,6 +84,7 @@ function addItemToCart() {
       } else {
         alert("Error while adding the item!");
         console.error("Status = " + xhr.status);
+        console.error("Error = " + xhr.response);
       }
     }
   };

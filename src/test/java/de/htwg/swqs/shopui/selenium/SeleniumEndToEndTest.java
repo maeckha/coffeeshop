@@ -22,9 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -100,11 +100,9 @@ public class SeleniumEndToEndTest {
     // verify cookie and corresponding cart exists
     Cookie cookie = this.config.getDriver().manage().getCookieNamed("cart-id");
     ShoppingCart cart = this.cartService.getShoppingCart(Long.parseLong(cookie.getValue()));
+    this.shoppingCartPage.navigate();
+
     assertNotNull(cart);
-
-    System.out.println("Id we want to add = " + idFromProductWeWantToAdd);
-    System.out.println(cartService.shoppingCartsToString());
-
     // verify correct product is added to cart
     assertEquals(idFromProductWeWantToAdd,
         cart.getItemsInShoppingCart().get(0).getProduct().getId());

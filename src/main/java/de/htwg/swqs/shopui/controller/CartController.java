@@ -64,6 +64,10 @@ public class CartController {
       @CookieValue("cart-id") long cartId,
       @RequestBody ItemWrapper itemWrapper) {
 
+    LOGGER.debug("Add item #"+ itemWrapper.getProductId() +" to cart #" + cartId);
+    LOGGER.debug("Available ShoppingCarts:");
+    LOGGER.debug(this.cartService.shoppingCartsToString());
+
     return this.cartService.addItemToCart(cartId, itemWrapper.getProductId(),
         itemWrapper.getQuantity());
   }
