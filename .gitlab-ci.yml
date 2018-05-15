@@ -4,9 +4,14 @@ image: maven:3-jdk-8
 
 # will be executed before each job
 before_script:
-  - "ls -la"
+  # download firefox and set it to path
+  - "wget https://ftp.mozilla.org/pub/firefox/releases/60.0/linux-x86_64/en-US/firefox-60.0.tar.bz2"
+  - "tar xvf firefox*.tar.bz2"
+  - "ln -s firefox/firefox /usr/bin/firefox"
+  # download geckodriver
   - "curl --verbose --fail --location --url \"https://github.com/mozilla/geckodriver/releases/download/v0.20.1/geckodriver-v0.20.1-linux64.tar.gz\" -o geckodriver.tar.gz"
   - "tar xvzf geckodriver.tar.gz -C /root/"
+  # download and unpack the dependencies
   - "curl --verbose --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/-/jobs/artifacts/master/download?job=maven%3Averify\" -o artifacts-catalog.zip"
   - "curl --verbose --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-shoppingcart/-/jobs/artifacts/master/download?job=maven%3Averify\" -o artifacts-cart.zip"
   - "curl --verbose --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-order-management/-/jobs/artifacts/master/download?job=maven%3Averify\" -o artifacts-order.zip"

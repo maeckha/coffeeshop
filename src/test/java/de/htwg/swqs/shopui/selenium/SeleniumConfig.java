@@ -24,7 +24,8 @@ public class SeleniumConfig {
   public SeleniumConfig(int port) throws MalformedURLException {
 
     FirefoxBinary firefoxBinary = new FirefoxBinary();
-    //firefoxBinary.addCommandLineOptions("--headless");
+    // must be headless so it can be easily run in an container
+    firefoxBinary.addCommandLineOptions("--headless");
 
     FirefoxOptions firefoxOptions = new FirefoxOptions();
     firefoxOptions.setBinary(firefoxBinary);
