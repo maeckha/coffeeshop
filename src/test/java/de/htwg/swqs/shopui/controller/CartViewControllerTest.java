@@ -11,31 +11,41 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
+import de.htwg.swqs.shopui.HelperUtil;
 import javax.servlet.http.Cookie;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
- * In this test suite we only test the CartViewController, the DOC are just a mock.
- * We don't use the html sites for navigation, just the controller methods.
+ * In this test suite we only test the CartViewController, the DOC are just a mock. We don't use the
+ * html sites for navigation, just the controller methods.
  */
 public class CartViewControllerTest {
 
   private MockMvc mvc;
+  private CartService cartService;
+  private CartViewController cartViewController;
+  private ShoppingCart shoppingCart;
 
-  @Test
-  public void testCartViewControllerReturnsPageAttachedWithShoppingCart() throws Exception {
-
-    // setup
-    CartService cartService = mock(CartService.class);
-    CartViewController cartViewController = new CartViewController(cartService);
-    ShoppingCart dummyCart = mock(ShoppingCart.class);
-    when(cartService.getShoppingCart(anyLong())).thenReturn(dummyCart);
+  @Before
+  public void setUp() {
+    this.cartService = mock(CartService.class);
+    this.cartViewController = new CartViewController(cartService);
+    this.shoppingCart = HelperUtil.createDummyShoppingCart();
 
     this.mvc = MockMvcBuilders.standaloneSetup(cartViewController).build();
 
+  }
+
+  @Test
+  public void testCartViewControllerReturnsPageAttachedWithShoppingCart() throws Exception {
+    // setup
+    when(cartService.getShoppingCart(anyLong())).thenReturn(this.shoppingCart);
+
+    // execute & verify
     this.mvc.perform(get("/show-cart")
         .accept(MediaType.TEXT_HTML)
         .cookie(new Cookie("cart-id", "1")))
@@ -47,5 +57,15 @@ public class CartViewControllerTest {
   }
 
 
-  // public void testCartViewControllerWithoutCookieReturnsError() throws Exception { }
+  @Test
+  public void testCartViewControllerWithoutCookieReturnsError() throws Exception {
+    // setup
+    when(cartService.getShoppingCart(anyLong())).thenReturn(this.shoppingCart);
+
+    // execute & verify
+    this.mvc.perform(get("/show-cart")
+        .accept(MediaType.TEXT_HTML))
+        .andExpect(status().is4xxClientError())
+        .andDo(print());
+  }
 }

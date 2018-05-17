@@ -52,7 +52,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * We don't want to use the external interfaces of the order service. Instead we just focus on the
- * interaction between the OrderController and the OrderService.
+ * interaction between the OrderController, the OrderService and the CartService.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
