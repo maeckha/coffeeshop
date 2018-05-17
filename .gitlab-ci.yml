@@ -5,6 +5,11 @@ image: maven:3-jdk-8
 # print out jacoco coverage with the awk command for using the badge in the readme:
 # https://stackoverflow.com/a/48765974
 
+# define stages (and their order)
+stages:
+  - test
+  - report
+
 # a private token (retrieved from gitlab user settings) is necessary as secret variable for the curl call
 # https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
 # https://docs.gitlab.com/ee/ci/variables/
