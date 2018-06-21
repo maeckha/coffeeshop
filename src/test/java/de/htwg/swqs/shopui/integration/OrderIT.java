@@ -104,7 +104,7 @@ public class OrderIT {
         .andDo(print());
   }
 
-  @Test
+  //@Test
   public void createNewOrderAndRetrieveOrderObject() throws Exception {
 
     // setup
