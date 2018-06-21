@@ -107,7 +107,7 @@ public class OrderIT {
   //@Test
   public void createNewOrderAndRetrieveOrderObject() throws Exception {
 
-    // setup
+    //  setup
     ShoppingCart dummyCart = HelperUtil.createDummyShoppingCart();
 
     // with the doReturn statement we can specify the return behaviour of the cart service
