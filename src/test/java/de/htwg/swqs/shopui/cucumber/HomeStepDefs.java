@@ -23,7 +23,6 @@ public class HomeStepDefs {
 
   private static int responseStatus;
 
-
   @When("^the client calls /$")
   public void the_client_calls() throws Throwable {
     HomeController homeController = new HomeController();
@@ -31,6 +30,7 @@ public class HomeStepDefs {
 
     MvcResult result = this.mvc.perform(get("/"))
         .andExpect(view().name("index")).andReturn();
+
     MockHttpServletResponse response = result.getResponse();
     responseStatus = response.getStatus();
   }

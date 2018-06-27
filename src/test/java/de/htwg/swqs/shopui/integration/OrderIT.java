@@ -6,18 +6,19 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htwg.swqs.cart.model.ShoppingCart;
+import de.htwg.swqs.cart.model.ShoppingCartItem;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.order.mail.EmailService;
 import de.htwg.swqs.order.model.CustomerInfo;
+import de.htwg.swqs.order.model.Order;
 import de.htwg.swqs.order.payment.CurrencyConverterService;
+import de.htwg.swqs.order.payment.PaymentMethodService;
 import de.htwg.swqs.order.repository.OrderRepository;
 import de.htwg.swqs.order.service.OrderService;
 import de.htwg.swqs.order.service.OrderServiceImpl;
@@ -25,24 +26,37 @@ import de.htwg.swqs.order.shippingcost.ShippingCostService;
 import de.htwg.swqs.shopui.HelperUtil;
 import de.htwg.swqs.shopui.controller.OrderController;
 import de.htwg.swqs.shopui.util.OrderWrapper;
+import gherkin.lexer.He;
+import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Currency;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.Cookie;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+/**
+ * We don't want to use the external interfaces of the order service. Instead we just focus on the
+ * interaction between the OrderController, the OrderService and the CartService.
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureTestDatabase
 public class OrderIT {
 
   private MockMvc mvc;
@@ -52,9 +66,11 @@ public class OrderIT {
   private CurrencyConverterService currencyConverterService;
   @MockBean
   private EmailService emailService;
-  @MockBean
-  private CartService cartService;
 
+  @Autowired
+  private CartService cartService;
+  @Autowired
+  private PaymentMethodService paymentMethodService;
   @Autowired
   private OrderRepository orderRepository;
   @Autowired
@@ -66,10 +82,10 @@ public class OrderIT {
   @Before
   public void setUp() throws Exception {
 
+    // specify the behaviour of the mocked external api
     when(this.currencyConverterService
         .convertTo(any(Currency.class), any(Currency.class), any(BigDecimal.class)))
         .thenReturn(new BigDecimal("99.99"));
-    when(this.cartService.getShoppingCart(anyLong())).thenReturn(mock(ShoppingCart.class));
 
     this.orderService = new OrderServiceImpl(
         this.shippingCostService,
@@ -77,7 +93,8 @@ public class OrderIT {
         this.currencyConverterService,
         this.emailService
     );
-    this.orderController = new OrderController(this.orderService, this.cartService);
+    this.orderController = new OrderController(this.orderService, this.cartService,
+        this.paymentMethodService);
 
     // because we use the standalone version of the mock mvc builder we need also a viewresolver
     // https://myshittycode.com/2014/01/17/mockmvc-circular-view-path-view-would-dispatch-back-to-the-current-handler-url-view-again/
@@ -92,29 +109,29 @@ public class OrderIT {
   @Test
   public void showOrderPage() throws Exception {
 
-    // setup is done by the setUp() function
+    // insert some initial data to the cart service
+    ShoppingCart cart = this.cartService.createNewShoppingCart();
+    List<ShoppingCartItem> itemList = HelperUtil.createDummyShoppingItemList();
+    cart.setItemsInShoppingCart(itemList);
 
     // execute & verify
     this.mvc.perform(get("/order")
         .accept(MediaType.TEXT_HTML)
-        .cookie(new Cookie("cart-id", "1")))
+        .cookie(new Cookie("cart-id", String.valueOf(cart.getId()))))
         .andExpect(model().attributeExists("title", "cart"))
         .andExpect(view().name("order-create"))
         .andExpect(status().isOk())
         .andDo(print());
   }
 
-  //@Test
+  @Test
   public void createNewOrderAndRetrieveOrderObject() throws Exception {
 
-    //  setup
-    ShoppingCart dummyCart = HelperUtil.createDummyShoppingCart();
-
-    // with the doReturn statement we can specify the return behaviour of the cart service
-    // https://stackoverflow.com/a/40247083
-    doReturn(dummyCart)
-        .when(cartService)
-        .getShoppingCart(1L);
+    // setup
+    // insert some initial data to the cart service
+    ShoppingCart cart = this.cartService.createNewShoppingCart();
+    List<ShoppingCartItem> itemList = HelperUtil.createDummyShoppingItemList();
+    cart.setItemsInShoppingCart(itemList);
 
     CustomerInfo customerInfo = HelperUtil.createDummyCustomerInfo();
     Currency currency = Currency.getInstance("EUR");
@@ -122,20 +139,19 @@ public class OrderIT {
     orderWrapper.setCurrency(currency);
     orderWrapper.setCustomerInfo(customerInfo);
 
-    // convert the java object to json string
-    ObjectMapper mapper = new ObjectMapper();
-    String jsonRequestBody = mapper.writeValueAsString(orderWrapper);
+    MvcResult result = this.mvc.perform(MockMvcRequestBuilderUtils.postForm("/order", orderWrapper)
+        .cookie(new Cookie("cart-id", String.valueOf(cart.getId()))))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(view().name("order-validate"))
+        .andExpect(model().attributeExists("title", "order"))
+        .andReturn();
 
-    // execute & verify
-    this.mvc.perform(post("/order")
-        .cookie(new Cookie("cart-id", "1"))
-        .content(jsonRequestBody)
-        .contentType(MediaType.APPLICATION_JSON)
-        .accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
-        .andExpect(status().isOk())
-        //.andExpect(content().json("{'json': 'response'}"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.customerInfo.email").value("max@muster.de"));
+    Map<String, Object> modelAndViewMap = result.getModelAndView().getModel();
+    Order createdOrder = (Order) modelAndViewMap.get("order");
+
+    Assert.assertTrue(customerInfo.compareTo(createdOrder.getCustomerInfo()) == 0);
+    Assert.assertEquals(cart.getItemsInShoppingCart().size(),
+        createdOrder.getOrderItems().size());
+    Assert.assertEquals(currency.getCurrencyCode(), createdOrder.getCostTotal().getCurrency());
   }
 }

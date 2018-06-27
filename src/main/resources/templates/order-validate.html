@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragments/header :: head"></div>
-<div th:replace="/fragments/header :: header"></div>
-<div th:replace="/fragments/header :: navbar"></div>
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
 <body>
 <main class="order-wrapper">
 
@@ -12,14 +12,35 @@
     <h3>Personal data</h3>
 
     <input type="hidden" th:field="*{customerInfo.id}"/>
-    <p>Email: <input type="text" th:field="*{customerInfo.email}"/></p>
-    <p>First Name: <input type="text" th:field="*{customerInfo.firstname}"/></p>
-    <p>Last Name: <input type="text" th:field="*{customerInfo.surname}"/></p>
-    <p>Street & Housenumber: <input type="text" th:field="*{customerInfo.street}"/></p>
-    <p>Post code: <input type="text" th:field="*{customerInfo.postcode}"/></p>
-    <p>City: <input type="text" th:field="*{customerInfo.city}"/></p>
-    <p>Country: <input type="text" th:field="*{customerInfo.isoCountryCode}"/></p>
 
+    <div>
+      <label th:for="customerInfo.email">Email</label>
+      <input type="text" readonly th:field="*{customerInfo.email}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.firstname">First Name</label>
+      <input type="text" readonly th:field="*{customerInfo.firstname}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.surname">Last Name</label>
+      <input type="text" readonly th:field="*{customerInfo.surname}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.street">Street & Housenumber</label>
+      <input readonly type="text" th:field="*{customerInfo.street}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.postcode">Post code</label>
+      <input type="text" readonly th:field="*{customerInfo.postcode}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.city">City</label>
+      <input type="text" readonly th:field="*{customerInfo.city}"/>
+    </div>
+    <div>
+      <label th:for="customerInfo.isoCountryCode">Country</label>
+      <input type="text" readonly th:field="*{customerInfo.isoCountryCode}"/>
+    </div>
     <hr>
 
     <h3>Your items</h3>
@@ -35,32 +56,58 @@
       </thead>
       <tbody>
       <tr th:each="item, stat : *{orderItems}">
-        <td><input type="text" th:field="*{orderItems[__${stat.index}__].productId}"/></td>
-        <td><input type="text" th:field="*{orderItems[__${stat.index}__].quantity}"/></td>
-        <td><input type="text" th:field="*{orderItems[__${stat.index}__].priceEuro}"/></td>
-        <td><span th:text="${item.quantity * item.priceEuro}"></span></td>
+        <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].productId}"/></td>
+        <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].quantity}"/></td>
+        <td><input type="text" readonly th:field="*{orderItems[__${stat.index}__].priceEuro}"/></td>
+        <td><input type="text" readonly th:value="${item.quantity * item.priceEuro}"/></td>
       </tr>
       </tbody>
     </table>
 
     <hr>
 
-    <p>Shipping costs (in Euro): <input th:field="*{costShipping}"/></p>
+    <h3>Cost</h3>
+
+    <div>
+      <label th:for="order.costShipping">Shipping costs (in Euro):</label>
+      <input readonly type="text" th:field="*{costShipping}"/>
+    </div>
+
+    <div>
+      <label>Total costs (in <span th:text="${order.costTotal.getCurrency()}">EURO</span>)
+      </label>
+      <input type="text" readonly th:value="${order.costTotal.getAmount().toPlainString()}"></input>
+    </div>
+
+    <hr>
+
+    <h3>Payment</h3>
+
+    <div>
+      <label th:for="order.paymentMethod">Payment method</label>
+      <select required th:field="*{paymentMethod}">
+        <option th:each="paymentMethodOption : ${paymentMethods}" th:value="${paymentMethodOption}"
+                th:text="${paymentMethodOption}"></option>
+      </select>
+    </div>
+
+    <hr>
 
     <input type="hidden" th:field="*{costTotal.amount}"/>
     <input type="hidden" th:field="*{costTotal.currency}"/>
-
-    <p>Total costs (in <span th:text="${order.costTotal.getCurrency()}"></span>):
-      <span th:text="${order.costTotal.getAmount().toPlainString()}"></span></p>
-
     <input type="hidden" th:field="*{orderDate}"/>
-    <button id="submit-order-verify" type="submit">Submit order</button>
-    <button type="reset">Cancel</button>
+
+
+    <div>
+      <button id="submit-order-verify" type="submit">Submit order</button>
+      <button type="reset">Cancel</button>
+      <button type="button" onclick="cancelOrder()">Cancel</button>
+    </div>
 
   </form>
 
 </main>
-<div th:replace="/fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

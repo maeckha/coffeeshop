@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragments/header :: head"></div>
-<div th:replace="/fragments/header :: header"></div>
-<div th:replace="/fragments/header :: navbar"></div>
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
 <body>
 <style>
   #nav-catalog {
@@ -20,13 +20,17 @@
     <article th:each="product: ${products}">
       <a th:href="@{/products/{productId}(productId=${product.id})}">
         <h5 class="title" th:text="${product.name}">product name</h5>
-        <p th:text="${product.id}">0815-420</p>
+        <p class="artnr">Art.-Nr.
+          <span th:text="${product.id}">
+            0815-420
+          </span>
+        </p>
       </a>
     </article>
   </section>
 
 </main>
-<div th:replace="/fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 
 </body>
 </html>

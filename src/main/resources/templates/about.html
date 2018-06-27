@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
+<body>
+
+<style>
+  #nav-about {
+    background-color: rgb(217, 229, 236);
+    color: rgb(51, 65, 82);
+  }
+</style>
+
+<main>
+
+  <h1>About this application</h1>
+  <p>This application was designed and implemented as part of a bachelor thesis at the university of
+    applied science Constance. It is intended to support the software quality assurance lecture. The
+    exemplary web shop should offer a functioning and comprehensive software with which the students
+    can work on different types and levels of tests.</p>
+
+  <p>The entire source code can be viewed and downloaded from the university's Gitlab server.
+    Alternatively, access via Github is also possible. Only open source libraries and tools were
+    used, so that the application can be run by everyone without restrictions.</p>
+
+  <hr>
+
+  <a href="https://gitlab.in.htwg-konstanz.de/mibay/swqs-parent">go to htwg gitlab</a>
+  <a href="https://github.com/miirko/swqs-parent">go to github</a>
+
+
+  <hr>
+
+  <p>Mirko Bay</p>
+  <p><a href="https://htwg-konstanz.de">Hochschule Konstanz</a></p>
+
+</main>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

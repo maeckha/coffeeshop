@@ -1,7 +1,6 @@
 package de.htwg.swqs.shopui.selenium.pages;
 
 import de.htwg.swqs.shopui.selenium.SeleniumConfig;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -14,6 +13,8 @@ public class ShoppingCartPage {
   private WebElement itemTable;
   @FindBy(tagName = "h1")
   private WebElement title;
+  @FindBy(id = "order-button")
+  private WebElement orderButton;
 
   public ShoppingCartPage(SeleniumConfig config) {
     this.config = config;
@@ -33,6 +34,6 @@ public class ShoppingCartPage {
   }
 
   public void clickOrderButton() {
-    this.config.getDriver().findElement(By.id("order-button")).click();
+    this.orderButton.click();
   }
 }

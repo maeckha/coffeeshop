@@ -1,25 +1,29 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragments/header :: head"></div>
-<div th:replace="/fragments/header :: header"></div>
-<div th:replace="/fragments/header :: navbar"></div>
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
 <body>
 <style>
-    #nav-catalog {
-        background-color: rgb(217, 229, 236);
-        color: rgb(51, 65, 82);
-    }
+  #nav-catalog {
+    background-color: rgb(217, 229, 236);
+    color: rgb(51, 65, 82);
+  }
 </style>
 
 <main class="catalog-wrapper">
-    <h1 th:text="${product.name}">product name</h1>
-    <p id="product-id" th:text="${product.id}">product id</p>
+  <h1 th:text="${product.name}">product name</h1>
+  <p th:text="${product.description}">description</p>
+  <p>Art-Nr. <span id="product-id" th:text="${product.id}">id</span></p>
 
+  <p>Add article to shopping vart</p>
+  <form onsubmit="checkIfCartExist(); return false;">
     <input id="quantity" type="number" min="1" max="99" required="true" value="1"/>
-    <button id="addButton">Add to cart</button>
+    <button type="submit" id="addButton">Add to cart</button>
+  </form>
 </main>
 
-<div th:replace="/fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 <script src="/js/detail.js"></script>
 </body>
 </html>

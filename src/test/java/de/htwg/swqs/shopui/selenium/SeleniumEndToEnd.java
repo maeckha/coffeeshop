@@ -22,7 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntries;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,6 +35,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestDatabase
 public class SeleniumEndToEnd {
 
   @LocalServerPort
@@ -97,8 +100,9 @@ public class SeleniumEndToEnd {
     // verify cookie and corresponding cart exists
     Cookie cookie = this.config.getDriver().manage().getCookieNamed("cart-id");
     ShoppingCart cart = this.cartService.getShoppingCart(Long.parseLong(cookie.getValue()));
-    assertNotNull(cart);
+    this.shoppingCartPage.navigate();
 
+    assertNotNull(cart);
     // verify correct product is added to cart
     assertEquals(idFromProductWeWantToAdd,
         cart.getItemsInShoppingCart().get(0).getProduct().getId());
@@ -145,8 +149,10 @@ public class SeleniumEndToEnd {
   @Test
   public void checkAllInfoAreShowedAndSubmitOrder() {
     //setup
+
     long idFromProductWeWantToAdd = this.catalogRepository.findAll().get(0).getId();
     int amountWeWantToAdd = 2;
+
     this.productDetailPage = new ProductDetailPage(this.config, idFromProductWeWantToAdd);
     this.productDetailPage.navigate();
     this.productDetailPage.addItemToCart(amountWeWantToAdd);

@@ -2,30 +2,50 @@
 # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-an-image
 image: maven:3-jdk-8
 
-# Cache downloaded dependencies and plugins between builds.
-cache:
-  paths:
-    - .m2/repository
+# print out jacoco coverage with the awk command for using the badge in the readme:
+# https://stackoverflow.com/a/48765974
 
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+# define stages (and their order)
+stages:
+  - test
+  - report
 
-test:
-  script:
-    - "mvn test --batch-mode"
+# a private token (retrieved from gitlab user settings) is necessary as secret variable for the curl call
+# https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+# https://docs.gitlab.com/ee/ci/variables/
 
-# define shell script which executed by GitLab Runner
-verify:
-  #before_script:
-  #- "curl -f -L -H \"PRIVATE-TOKEN: ${RESUME_APIKEY}\" -o assets/resume.pdf 'https://gitlab.com/namespace/project/-/jobs/artifacts/master/raw/resume.pdf?job=build'"
+# will be executed before each job
+before_script:
+  # download and unpack the dependencies
+  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-catalog.zip"
+  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-shoppingcart/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-cart.zip"
+  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-order-management/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-order.zip"
+  - "mkdir -p /root/.m2/repository/de/htwg/swqs/catalog/0.0.1/"
+  - "mkdir -p /root/.m2/repository/de/htwg/swqs/cart/0.0.1/"
+  - "mkdir -p /root/.m2/repository/de/htwg/swqs/order/0.0.2/"
+  - "unzip artifacts-catalog.zip -d /root/.m2/repository/de/htwg/swqs/catalog/0.0.1/"
+  - "unzip artifacts-cart.zip -d /root/.m2/repository/de/htwg/swqs/cart/0.0.1/"
+  - "unzip artifacts-order.zip -d /root/.m2/repository/de/htwg/swqs/order/0.0.2/"
 
+maven-verify:
+  stage: test
   script:
   - "mvn verify --batch-mode"
-  - "cat target/site/jacoco/index.html"
+  - "awk -F\",\" '{ instructions += $4 + $5; covered += $5 } END { print covered, \"/\", instructions, \"instructions covered\"; print 100*covered/instructions, \"% covered\" }' target/site/jacoco/jacoco.csv"
   - "mv target/*.jar ."
   artifacts:
-      paths:
-        - "*.jar"
-      expire_in: 1d
+    name: "swqs-shopui-app"
+    when: on_success
+    paths:
+      - "*.jar"
 
-
+maven-site:
+  stage: report
+  script:
+  - "mvn site --batch-mode"
+  - "awk -F\",\" '{ instructions += $4 + $5; covered += $5 } END { print covered, \"/\", instructions, \"instructions covered\"; print 100*covered/instructions, \"% covered\" }' target/site/jacoco/jacoco.csv"
+  artifacts:
+    name: "swqs-shopui-report"
+    when: on_success
+    paths:
+      - "./target/site/"

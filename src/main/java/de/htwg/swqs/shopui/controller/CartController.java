@@ -2,12 +2,13 @@ package de.htwg.swqs.shopui.controller;
 
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
-import de.htwg.swqs.shopui.util.ItemRequestWrapper;
+import de.htwg.swqs.shopui.util.ItemWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("carts/")
 public class CartController {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CartController.class);
 
   private CartService cartService;
 
@@ -30,6 +33,10 @@ public class CartController {
   public long createNewCartAndReturnId() {
 
     ShoppingCart newCart = this.cartService.createNewShoppingCart();
+
+    LOGGER.debug("Available ShoppingCarts:");
+    LOGGER.debug(this.cartService.shoppingCartsToString());
+
     return newCart.getId();
   }
 
@@ -55,10 +62,14 @@ public class CartController {
   public @ResponseBody
   ShoppingCart addItemToCart(
       @CookieValue("cart-id") long cartId,
-      @RequestBody ItemRequestWrapper itemRequestWrapper) {
+      @RequestBody ItemWrapper itemWrapper) {
 
-    return this.cartService.addItemToCart(cartId, itemRequestWrapper.getProductId(),
-        itemRequestWrapper.getQuantity());
+    LOGGER.debug("Add item #" + itemWrapper.getProductId() + " to cart #" + cartId);
+    LOGGER.debug("Available ShoppingCarts:");
+    LOGGER.debug(this.cartService.shoppingCartsToString());
+
+    return this.cartService.addItemToCart(cartId, itemWrapper.getProductId(),
+        itemWrapper.getQuantity());
   }
 
   @PostMapping(
@@ -69,10 +80,10 @@ public class CartController {
   public @ResponseBody
   ShoppingCart removeItemFromCart(
       @CookieValue("cart-id") long cartId,
-      @RequestBody ItemRequestWrapper itemRequestWrapper) {
+      @RequestBody ItemWrapper itemWrapper) {
 
-    return this.cartService.removeItemFromCart((long) cartId, itemRequestWrapper.getProductId(),
-        itemRequestWrapper.getQuantity());
+    return this.cartService.removeItemFromCart(cartId, itemWrapper.getProductId(),
+        itemWrapper.getQuantity());
   }
 
 }

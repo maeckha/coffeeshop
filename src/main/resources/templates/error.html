@@ -1,14 +1,15 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="/fragments/header :: head"></div>
-<div th:replace="/fragments/header :: header"></div>
-<div th:replace="/fragments/header :: navbar"></div>
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
 
-<main>
+<main class="error-wrapper">
 
-  <h1>Error! <span th:text="${message}"></span></h1>
+  <h1>Error!</h1>
+  <p th:text="${message}"></p>
 
 </main>
-<div th:replace="/fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -6,15 +6,19 @@
  *
  */
 
-
-// eventlistener
-document.getElementById("addButton").addEventListener('click',
-    checkIfCartExist);
-
 /**
- * start point when the user clicks the 'add' button
+ * Start point when the user clicks the 'add' button.
  */
 function checkIfCartExist() {
+
+  // first check if the input is valid
+  if (!document.getElementById("quantity").checkValidity()) {
+    // input is not valid
+    return false;
+  }
+
+  // the value is valid, we can go on
+
   // check if cart already exists
   if (Cookies.get('cart-id') === undefined) {
     // cart does not exist -> create!
@@ -25,9 +29,8 @@ function checkIfCartExist() {
 }
 
 /**
- * if user got already no shopping cart,
- * we must retrieve a new id from the backend and set
- * this as cookie
+ * If the user got no shopping cart, we must retrieve a new id from the
+ * backend and set this as cookie.
  */
 function createShoppingCartAndSetId() {
   // var requestUrl = document.location.host + "/carts/create";
@@ -43,16 +46,19 @@ function createShoppingCartAndSetId() {
         addItemToCart();
 
       } else {
+        alert("Error while creating a new shopping cart!");
         console.error("Status = " + xhr.status);
       }
     }
   };
 
   xhr.send();
+  sessionStorage.setItem('amountOfItems', 0);
+
 }
 
 /**
- * get the infos of the product and the quantity and
+ * Get the infos of the product and the quantity and
  * send this to backend (addItemToCart(...)
  */
 function addItemToCart() {
@@ -76,7 +82,9 @@ function addItemToCart() {
         updateAndShowCartPreview(quantity);
 
       } else {
+        alert("Error while adding the item!");
         console.error("Status = " + xhr.status);
+        console.error("Error = " + xhr.response);
       }
     }
   };
@@ -86,8 +94,7 @@ function addItemToCart() {
 }
 
 /**
- * Update the amount of items in the shopping cart icon
- *
+ * Update the amount of items in the shopping cart icon on the right side.
  *
  * @param addedQuantity The quantity of items the user added
  */
@@ -96,17 +103,15 @@ function updateAndShowCartPreview(addedQuantity) {
   document.getElementById("nav-cart").style.pointerEvents = "all";
   document.getElementById("nav-cart").style.opacity = 1;
 
-  // update the quantity in the shopping cart
-  shoppingCartQuantityView = document.getElementById("shopping-cart-quantity");
-  var currentQuantity = shoppingCartQuantityView.textContent;
-  console.log("currentQuantity", currentQuantity);
-  console.log("typeof currentQuantity", typeof currentQuantity);
+  // calculate new quantity of items
+  var currentQuantity = sessionStorage.getItem('amountOfItems');
+  var newQuantity = parseInt(currentQuantity) + parseInt(addedQuantity);
 
-  console.log("addedQuantity", addedQuantity);
-  shoppingCartQuantityView.textContent = (parseInt(currentQuantity) + parseInt(
-      addedQuantity));
+  // update the amount of items in the shopping cart icon
+  // and the global variable in the session storage
+  document.getElementById("shopping-cart-quantity").textContent = newQuantity;
+  sessionStorage.setItem('amountOfItems', newQuantity);
+
+  // show the cart icon
   document.getElementById("shopping-cart-wrapper").style.opacity = 1;
-  setTimeout(function () {
-    document.getElementById("shopping-cart-wrapper").style.opacity = 0;
-  }, 5000);
 }

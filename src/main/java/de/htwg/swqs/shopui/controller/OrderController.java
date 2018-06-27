@@ -1,10 +1,11 @@
 package de.htwg.swqs.shopui.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import de.htwg.swqs.cart.model.ShoppingCart;
 import de.htwg.swqs.cart.service.CartService;
 import de.htwg.swqs.order.model.Order;
 import de.htwg.swqs.order.model.OrderItem;
+import de.htwg.swqs.order.payment.PaymentMethod;
+import de.htwg.swqs.order.payment.PaymentMethodService;
 import de.htwg.swqs.order.service.OrderService;
 import de.htwg.swqs.shopui.util.OrderWrapper;
 import java.util.ArrayList;
@@ -15,22 +16,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class OrderController {
 
-
   private OrderService orderService;
   private CartService cartService;
+  private PaymentMethodService paymentMethodService;
 
   @Autowired
-  public OrderController(OrderService orderService, CartService cartService) {
+  public OrderController(OrderService orderService, CartService cartService,
+      PaymentMethodService paymentMethodService) {
     this.orderService = orderService;
     this.cartService = cartService;
+    this.paymentMethodService = paymentMethodService;
   }
 
   /**
@@ -61,7 +61,7 @@ public class OrderController {
   @PostMapping("/order")
   public String createOrderForVerification(
       @CookieValue("cart-id") long cartId,
-      @ModelAttribute OrderWrapper orderWrapper,
+      @Valid OrderWrapper orderWrapper,
       Model model
   ) {
     ShoppingCart cart = this.cartService.getShoppingCart(cartId);
@@ -70,7 +70,16 @@ public class OrderController {
         createOrderItemListFromShoppingCart(cart),
         orderWrapper.getCurrency()
     );
+    List<PaymentMethod> paymentMethods = this.paymentMethodService
+        .getAcceptedMethods(createdOrder.getCustomerInfo(), createdOrder.getCostTotal());
+    if (paymentMethods.isEmpty()) {
+      throw new RuntimeException("You are blacklisted, orders are not possible!");
+    }
+
+    model.addAttribute("title", "E-Commerce Shop | Validate Order");
     model.addAttribute("order", createdOrder);
+    // the customer can choose one of the present payment methods
+    model.addAttribute("paymentMethods", paymentMethods);
 
     return "order-validate";
   }
@@ -84,10 +93,14 @@ public class OrderController {
   @PostMapping("/submit-order")
   public String submitOrder(
       @CookieValue("cart-id") long cartId,
-      @Valid @ModelAttribute Order order
+      Model model,
+      Order order
   ) {
     ShoppingCart cart = this.cartService.getShoppingCart(cartId);
     Order createdOrder = this.orderService.persistOrder(order);
+
+    model.addAttribute("title", "E-Commerce Shop | Order done");
+    model.addAttribute("mailAddress", createdOrder.getCustomerInfo().getEmail());
 
     return "order-done";
   }
