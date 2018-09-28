@@ -6,52 +6,52 @@
 <body>
 <main class="order-wrapper">
 
-  <h1>Your final order data:</h1>
+  <h1>Ihre Bestellung</h1>
   <form action="#" th:action="@{/submit-order}" th:object="${order}" method="POST">
 
-    <h3>Personal data</h3>
+    <h3>Adresse</h3>
 
     <input type="hidden" th:field="*{customerInfo.id}"/>
 
     <div>
-      <label th:for="customerInfo.email">Email</label>
+      <label th:for="customerInfo.email">E-Mail-Adresse</label>
       <input type="text" readonly th:field="*{customerInfo.email}"/>
     </div>
     <div>
-      <label th:for="customerInfo.firstname">First Name</label>
+      <label th:for="customerInfo.firstname">Vorname</label>
       <input type="text" readonly th:field="*{customerInfo.firstname}"/>
     </div>
     <div>
-      <label th:for="customerInfo.surname">Last Name</label>
+      <label th:for="customerInfo.surname">Nachname</label>
       <input type="text" readonly th:field="*{customerInfo.surname}"/>
     </div>
     <div>
-      <label th:for="customerInfo.street">Street & Housenumber</label>
+      <label th:for="customerInfo.street">Straße und Hausnummer</label>
       <input readonly type="text" th:field="*{customerInfo.street}"/>
     </div>
     <div>
-      <label th:for="customerInfo.postcode">Post code</label>
+      <label th:for="customerInfo.postcode">Postleitzahl</label>
       <input type="text" readonly th:field="*{customerInfo.postcode}"/>
     </div>
     <div>
-      <label th:for="customerInfo.city">City</label>
+      <label th:for="customerInfo.city">Stadt</label>
       <input type="text" readonly th:field="*{customerInfo.city}"/>
     </div>
     <div>
-      <label th:for="customerInfo.isoCountryCode">Country</label>
+      <label th:for="customerInfo.isoCountryCode">Land</label>
       <input type="text" readonly th:field="*{customerInfo.isoCountryCode}"/>
     </div>
     <hr>
 
-    <h3>Your items</h3>
+    <h3>Ihre Artikel:</h3>
 
-    <table>
-      <thead>
+    <table class="table">
+      <thead class="thead-inverse">
       <tr>
         <td>Art-Nr</td>
-        <td>Quantity</td>
-        <td>price per item</td>
-        <td>price total</td>
+        <td>Anzahl</td>
+        <td>Einzelpreis</td>
+        <td>Preis</td>
       </tr>
       </thead>
       <tbody>
@@ -66,22 +66,22 @@
 
     <hr>
 
-    <h3>Cost</h3>
+    <h3>Kosten</h3>
 
     <div>
-      <label th:for="order.costShipping">Shipping costs (in Euro):</label>
+      <label th:for="order.costShipping">Versandkosten (in Euro):</label>
       <input readonly type="text" th:field="*{costShipping}"/>
     </div>
 
     <div>
-      <label>Total costs (in <span th:text="${order.costTotal.getCurrency()}">EURO</span>)
+      <label>Gesamtpreis (in <span th:text="${order.costTotal.getCurrency()}">EURO</span>)
       </label>
       <input type="text" readonly th:value="${order.costTotal.getAmount().toPlainString()}"></input>
     </div>
 
     <hr>
 
-    <h3>Payment</h3>
+    <h3>Bezahlung</h3>
 
     <div>
       <label th:for="order.paymentMethod">Payment method</label>
@@ -99,9 +99,8 @@
 
 
     <div>
-      <button id="submit-order-verify" type="submit">Submit order</button>
-      <button type="reset">Cancel</button>
-      <button type="button" onclick="cancelOrder()">Cancel</button>
+      <button type="button" onclick="cancelOrder()" class="btn btn-primary">Abbrechen</button>
+      <button id="submit-order-verify" type="submit" class="btn btn-primary">Kostenpflichtig Bestellen</button>
     </div>
 
   </form>

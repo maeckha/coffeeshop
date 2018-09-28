@@ -6,7 +6,7 @@
 
   <groupId>de.htwg.swqs</groupId>
   <artifactId>shop-ui</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.7-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>shop-ui</name>
@@ -110,19 +110,19 @@
     <dependency>
       <groupId>de.htwg.swqs</groupId>
       <artifactId>catalog</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.7-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>de.htwg.swqs</groupId>
       <artifactId>cart</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.7-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>de.htwg.swqs</groupId>
       <artifactId>order</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.7-SNAPSHOT</version>
     </dependency>
 
   </dependencies>

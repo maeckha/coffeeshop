@@ -12,14 +12,18 @@
 </style>
 
 <main class="catalog-wrapper">
+
+  <div>
+    <a href="/products/">Zurück zum Sortiment</a>
+  </div>
+
   <h1 th:text="${product.name}">product name</h1>
   <p th:text="${product.description}">description</p>
   <p>Art-Nr. <span id="product-id" th:text="${product.id}">id</span></p>
 
-  <p>Add article to shopping vart</p>
   <form onsubmit="checkIfCartExist(); return false;">
     <input id="quantity" type="number" min="1" max="99" required="true" value="1"/>
-    <button type="submit" id="addButton">Add to cart</button>
+    <button type="submit" id="addButton" class="btn btn-primary">In den Warenkorb</button>
   </form>
 </main>
 

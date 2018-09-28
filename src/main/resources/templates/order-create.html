@@ -6,7 +6,7 @@
 <body>
 <main class="order-wrapper">
 
-  <h1>Create new order</h1>
+  <h1>Ihre Adresse</h1>
 
   <form action="#" th:action="@{/order}" th:object="${orderwrapper}" method="post">
 
@@ -16,53 +16,51 @@
           href="https://www.smtpbucket.com/" target="_blank">fake smtp
         server</a> hat is fully public.
       </p>
-      <label th:for="customerInfo.email">Email address</label>
+      <label th:for="customerInfo.email">E-Mail-Adresse</label>
       <input type="text" th:field="*{customerInfo.email}" th:required="required"/>
     </div>
     <div>
-      <label th:for="customerInfo.firstname">First Name</label>
+      <label th:for="customerInfo.firstname">Vorname</label>
       <input type="text" th:field="*{customerInfo.firstname}" th:required="required"/>
     </div>
     <div>
-      <label th:for="customerInfo.surname">Last Name</label>
+      <label th:for="customerInfo.surname">Nachname</label>
       <input type="text" th:field="*{customerInfo.surname}" th:required="required"/>
     </div>
     <div>
-      <label th:for="customerInfo.street">Street and Number</label>
+      <label th:for="customerInfo.street">Straße und Hausnummer</label>
       <input type="text" th:field="*{customerInfo.street}"
              th:required="required"/>
     </div>
     <div>
-      <label th:for="customerInfo.postcode">Postcode</label>
+      <label th:for="customerInfo.postcode">Postleitzahl</label>
       <input type="text" th:field="*{customerInfo.postcode}" th:required="required"/>
 
     </div>
     <div>
-      <label th:for="customerInfo.city">City</label>
+      <label th:for="customerInfo.city">Stadt</label>
       <input type="text" th:field="*{customerInfo.city}" th:required="required"/>
     </div>
     <div>
-      <label th:for="customerInfo.isoCountryCode">Country</label>
+      <label th:for="customerInfo.isoCountryCode">Land</label>
       <select th:field="*{customerInfo.isoCountryCode}">
-        <option value="DE" selected>Germany</option>
-        <option value="AT">Austria</option>
-        <option value="CH">Switzerland</option>
-        <option value="US">United states</option>
+        <option value="DE" selected>Deutschland</option>
+        <option value="AT">Österreich</option>
+        <option value="CH">Schweiz</option>
       </select>
     </div>
     <div>
-      <label th:for="currency">Currency</label>
+      <label th:for="currency">Währung</label>
       <select th:field="*{currency}">
         <option value="EUR" selected>EUR</option>
         <option value="CHF">CHF</option>
-        <option value="USD">USD</option>
       </select>
     </div>
 
     <div>
-      <button type="submit" id="submit-order-form" value="Submit">Calculate shipping costs</button>
-      <button type="reset">reset the input</button>
-      <button type="button" onclick="cancelOrder()">cancel</button>
+      <button type="button" onclick="cancelOrder()" class="btn btn-primary">Abbrechen</button>
+      <button type="reset" class="btn btn-primary">Eingaben Zurücksetzen</button>
+      <button type="submit" id="submit-order-form" value="Submit" class="btn btn-primary">Zur Kasse</button>
     </div>
   </form>
 

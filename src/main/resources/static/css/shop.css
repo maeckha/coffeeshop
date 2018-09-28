@@ -20,11 +20,12 @@ h1, h3 {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em;
+  color: black;
 }
 
 h3 {
-  font-size: 2em;
+  font-size: 1.5em;
   margin-top: 1em;
 }
 
@@ -34,15 +35,25 @@ h3 {
 /*                                                   */
 /* ################################################# */
 
+header {
+  background-color: black;
+}
+
+.header-img {
+  display: inline;
+}
+
 .header-title {
-  padding: 50px;
+  margin: 20px;
   font-size: 30px;
-  background-color: rgb(0, 155, 145);;
+  display: inline;
+  text-align: center;
+/**  background-color: rgb(0, 155, 145); */
 }
 
 .header-title a {
   text-decoration: none;
-  color: rgb(51, 65, 82);
+  color: white;
 }
 
 nav {
@@ -52,7 +63,7 @@ nav {
 }
 
 .nav-item {
-  padding: 20px;
+  padding: 10px;
   transition: background-color 500ms ease, color 500ms ease;
   color: white;
   text-decoration: none;

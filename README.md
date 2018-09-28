@@ -17,19 +17,19 @@ The database which is used by the catalog and shoppingcart component can be conf
 First you must install the three following dependencies in your [local maven repository](http://www.baeldung.com/maven-local-repository) 
 with the `mvn install` command.
 
-* [swqs-catalog](https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog)
-* [swqs-cart](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shoppingcart)
-* [swqs-order-management](https://gitlab.in.htwg-konstanz.de/mibay/swqs-order-management)
+* [swqs-catalog]
+* [swqs-cart]
+* [swqs-order-management]
 
 Alternatively, you can download the final jar file from the ci builds and store them manually in your 
 local maven repository. That's the way we do it for the ci tests and builds (in the [gitlab-ci.yml](.gitlab-ci.yml) file), 
 a private access token is required when downloading the artifact from the command line.
 
 The application can be build with maven, a runnable jar file with all dependencies and a embedded webserver will be created when at least the `package` phase is executed.
-## usage
+## Usage
 Just run the created jar file, the spring boot application should start. The default port is 8080. 
 
-## tests
+## Tests
 To run the tests with maven for the application you have to use following build phases: 
 
 * `mvn test` (for unit tests, class name ends with `Test`) or 
@@ -47,6 +47,10 @@ The Selenium tests doesn't run automatically while the maven build process. You 
 
 #### cucumber functional tests
 There's a minimal example of a cucumber test which checks the functionality of the home controller (with the [spring mvc test framework](https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#spring-mvc-test-framework])). It's for demonstrating the usage of cucumber inside a spring project. The cucumber tests can be combined with selenium to achieve some functional system tests based on user stories.
+
+#### Mail
+We send mails to our fake mail server, you can verify the mail sending when you look to following page: [www.smtpbucket.com](https://www.smtpbucket.com/).
+Enter as sender: webshop@swqs.org and as recipient the email address you expect the mail.
 
 ## reports
 The project includes various maven code analyzing plugins. When running `mvn site` a html site with all reports, test results and the javadoc will be generated into the `target/site` directory.
