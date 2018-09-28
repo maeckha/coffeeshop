@@ -1,0 +1,21 @@
+branch-defaults:
+  default:
+    environment: null
+  master:
+    environment: shop-test
+deploy:
+  artifact: target/shop-ui-0.0.7-SNAPSHOT.jar
+global:
+  application_name: DemoShop
+  branch: null
+  default_ec2_keyname: aws-eb
+  default_platform: Java 8
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application
