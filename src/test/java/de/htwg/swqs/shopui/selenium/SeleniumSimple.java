@@ -53,7 +53,7 @@ public class SeleniumSimple {
   public void getWelcomePage() {
     this.driver.get(this.base.toString());
     WebElement element = this.driver.findElement(By.tagName("h1"));
-    assertEquals("Web shop demo application", element.getText());
+    assertEquals("Willkommen zu Meine Kaffee-Welt", element.getText());
   }
 
   @After
