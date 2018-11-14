@@ -27,13 +27,13 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     if (catalogRepository.count() == 0) {
       catalogRepository
           .save(new Product(10001L, "Name for the product", "Description for the product",
-              new BigDecimal("3.14")));
+              new BigDecimal("3.14"),1000));
       catalogRepository.save(
           new Product(10002L, "Another Name for another product", "And the description",
-              new BigDecimal("2.22")));
+              new BigDecimal("2.22"),500));
       catalogRepository.save(
           new Product(10003L, "Product name", "And the description",
-              new BigDecimal("42.99")));
+              new BigDecimal("42.99"),250));
       catalogRepository.flush();
     } else {
       LOGGER

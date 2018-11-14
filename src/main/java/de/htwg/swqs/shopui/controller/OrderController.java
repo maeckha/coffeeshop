@@ -111,7 +111,7 @@ public class OrderController {
     List<OrderItem> orderItems = new ArrayList<>();
     cart.getItemsInShoppingCart().forEach(
         item -> orderItems.add(new OrderItem(item.getQuantity(), item.getProduct().getId(),
-            item.getProduct().getPriceEuro())));
+            item.getProduct().getPriceEuro(),item.getProduct().getWeight())));
     return orderItems;
   }
 }

@@ -18,3 +18,5 @@ aws rds describe-db-instances
 aws rds delete-db-instance --db-instance-identifier shop-db --skip-final-snapshot
 
 mysql -h shop-db.ch2g9nokdg1u.us-west-2.rds.amazonaws.com -u swqsuser -p swqsdemo
+
+http://shop-test.8qvzgknme3.us-west-2.elasticbeanstalk.com
