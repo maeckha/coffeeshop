@@ -11,6 +11,9 @@ import de.htwg.swqs.shopui.util.OrderWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
+
+import org.apache.juli.logging.LogFactory;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +27,9 @@ public class OrderController {
   private OrderService orderService;
   private CartService cartService;
   private PaymentMethodService paymentMethodService;
+
+  private Log log = LogFactory.getLog(OrderController.class);
+
 
   @Autowired
   public OrderController(OrderService orderService, CartService cartService,
@@ -81,6 +87,8 @@ public class OrderController {
     // the customer can choose one of the present payment methods
     model.addAttribute("paymentMethods", paymentMethods);
 
+    log.debug("createOrderForVerification: "+createdOrder);
+
     return "order-validate";
   }
 
@@ -96,22 +104,29 @@ public class OrderController {
       Model model,
       Order order
   ) {
+    log.debug("submitOrder: "+order);
+    log.debug("Submit Order with OrderItems: ");
+    order.getOrderItems().forEach( item -> log.debug(" -> "+item));
     ShoppingCart cart = this.cartService.getShoppingCart(cartId);
     Order createdOrder = this.orderService.persistOrder(order);
+    this.cartService.clearShoppingCart(cartId);
 
     model.addAttribute("title", "E-Commerce Shop | Order done");
-    model.addAttribute("mailAddress", createdOrder.getCustomerInfo().getEmail());
+    model.addAttribute("customerInfo", createdOrder.getCustomerInfo());
 
     return "order-done";
   }
 
 
   private List<OrderItem> createOrderItemListFromShoppingCart(ShoppingCart cart) {
-
+    log.debug("CartItems: ");
+    cart.getItemsInShoppingCart().forEach( item -> log.debug(" -> "+item));
     List<OrderItem> orderItems = new ArrayList<>();
     cart.getItemsInShoppingCart().forEach(
         item -> orderItems.add(new OrderItem(item.getQuantity(), item.getProduct().getId(),
             item.getProduct().getPriceEuro(),item.getProduct().getWeight())));
+    log.debug("OrderItems: ");
+    orderItems.forEach( item -> log.debug(" -> "+item));
     return orderItems;
   }
 }
