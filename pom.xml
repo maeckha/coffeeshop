@@ -6,7 +6,7 @@
 
   <groupId>de.htwg.swqs</groupId>
   <artifactId>shop-ui</artifactId>
-  <version>0.0.7</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>shop-ui</name>
@@ -117,27 +117,12 @@
       <version>2.0.0</version>
       <scope>test</scope>
     </dependency>
-
-
-    <!-- DEPENDED-ON COMPONENTS -->
     <dependency>
-      <groupId>de.htwg.swqs</groupId>
-      <artifactId>catalog</artifactId>
-      <version>0.0.7-SNAPSHOT</version>
+      <groupId>com.icegreen</groupId>
+      <artifactId>greenmail</artifactId>
+      <version>1.5.5</version>
+      <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>de.htwg.swqs</groupId>
-      <artifactId>cart</artifactId>
-      <version>0.0.7-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.htwg.swqs</groupId>
-      <artifactId>order</artifactId>
-      <version>0.0.7-SNAPSHOT</version>
-    </dependency>
-
   </dependencies>
 
   <build>
