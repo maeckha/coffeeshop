@@ -2,8 +2,7 @@
 [![coverage report](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/badges/master/coverage.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/commits/master)
 
 # swqs-shop-ui
-The shop ui depends on the shoppingcart, catalog and order module. 
-It delivers a serverbased Web-Application, realized with [Spring Boot](https://projects.spring.io/spring-boot/) 
+The shop ui delivers a serverbased Web-Application, realized with [Spring Boot](https://projects.spring.io/spring-boot/) 
 and [Thymeleaf](https://www.thymeleaf.org/).
 
 The shopping cart of the customer is managed serverside by a simple list, 
