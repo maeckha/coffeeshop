@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrencyConverterServiceImpl implements CurrencyConverterService {
 
+  private String apiKey =  "2229e7e8fad6017cf55f";
+
   @Override
   public BigDecimal convertTo(Currency currencyFrom, Currency currencyTo, BigDecimal amount)
       throws IOException {
@@ -26,7 +28,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
       throw new IllegalArgumentException("The passed amount must be greater than 0");
     }
 
-    String parameters = "q=" + currencyFrom + "_" + currencyTo + "&compact=ultra";
+    String parameters = "q=" + currencyFrom + "_" + currencyTo + "&compact=ultra&apiKey="+apiKey;
 
     BigDecimal exchangeRate = callExternalExchangeService(parameters);
 
