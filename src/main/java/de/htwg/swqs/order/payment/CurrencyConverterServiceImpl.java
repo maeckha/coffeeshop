@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrencyConverterServiceImpl implements CurrencyConverterService {
 
-  private String apiKey =  "2229e7e8fad6017cf55f";
+  private String apiKey = "2229e7e8fad6017cf55f";
 
   @Override
   public BigDecimal convertTo(Currency currencyFrom, Currency currencyTo, BigDecimal amount)
