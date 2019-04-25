@@ -26,7 +26,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
       throw new IllegalArgumentException("The passed amount must be greater than 0");
     }
 
-    String parameters = "q=" + currencyFrom + "_" + currencyTo + "&compact=ultra";
+    String parameters = "q=" + currencyFrom + "_" + currencyTo + "&compact=ultra&apiKey=2229e7e8fad6017cf55f";
 
     BigDecimal exchangeRate = callExternalExchangeService(parameters);
 
@@ -35,7 +35,7 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
 
   private BigDecimal callExternalExchangeService(String parameters) throws IOException {
 
-    URL url = new URL("https://free.currencyconverterapi.com/api/v5/convert" + "?" + parameters);
+    URL url = new URL("https://free.currencyconverterapi.com/api/v6/convert" + "?" + parameters);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("GET");
     connection.setDoOutput(true);
