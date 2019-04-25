@@ -16,17 +16,8 @@ stages:
 
 # will be executed before each job
 before_script:
-  # download and unpack the dependencies
-  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-catalog.zip"
-  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-shoppingcart/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-cart.zip"
-  - "curl --fail --location --header \"PRIVATE-TOKEN: ${PRIVATE_ACCESS_TOKEN}\" --url \"https://gitlab.in.htwg-konstanz.de/mibay/swqs-order-management/-/jobs/artifacts/master/download?job=maven-verify\" -o artifacts-order.zip"
-  - "mkdir -p /root/.m2/repository/de/htwg/swqs/catalog/0.0.1/"
-  - "mkdir -p /root/.m2/repository/de/htwg/swqs/cart/0.0.1/"
-  - "mkdir -p /root/.m2/repository/de/htwg/swqs/order/0.0.2/"
-  - "unzip artifacts-catalog.zip -d /root/.m2/repository/de/htwg/swqs/catalog/0.0.1/"
-  - "unzip artifacts-cart.zip -d /root/.m2/repository/de/htwg/swqs/cart/0.0.1/"
-  - "unzip artifacts-order.zip -d /root/.m2/repository/de/htwg/swqs/order/0.0.2/"
-
+  # Nothing to do
+ 
 maven-verify:
   stage: test
   script:
