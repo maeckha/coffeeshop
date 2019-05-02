@@ -2,31 +2,22 @@
 [![coverage report](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/badges/master/coverage.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/commits/master)
 
 # swqs-shop-ui
-The shop ui depends on the shoppingcart, catalog and order module. 
-It delivers a serverbased Web-Application, realized with [Spring Boot](https://projects.spring.io/spring-boot/) 
+The shop ui delivers a serverbased Web-Application, realized with [Spring Boot](https://projects.spring.io/spring-boot/) 
 and [Thymeleaf](https://www.thymeleaf.org/).
 
 The shopping cart of the customer is managed serverside by a simple list, 
 the client holds the cart id in a cookie.
 
 ## database
+
 The database which is used by the catalog and shoppingcart component can be configured through the [application.properties](src/main/resources/application.properties) file. For the various tests we use a in-memory database.
 
 ## deployment
 
-First you must install the three following dependencies in your [local maven repository](http://www.baeldung.com/maven-local-repository) 
-with the `mvn install` command.
-
-* [swqs-catalog]
-* [swqs-cart]
-* [swqs-order-management]
-
-Alternatively, you can download the final jar file from the ci builds and store them manually in your 
-local maven repository. That's the way we do it for the ci tests and builds (in the [gitlab-ci.yml](.gitlab-ci.yml) file), 
-a private access token is required when downloading the artifact from the command line.
-
 The application can be build with maven, a runnable jar file with all dependencies and a embedded webserver will be created when at least the `package` phase is executed.
+
 ## Usage
+
 Just run the created jar file, the spring boot application should start. The default port is 8080. 
 
 ## Tests
