@@ -2,7 +2,7 @@
 # Scripts to create database and technicial user
 #
 
-# production
+# local test
 
 CREATE DATABASE coffeeshop_test;
 
@@ -11,6 +11,15 @@ GRANT ALL PRIVILEGES ON coffeeshop_test.* TO 'coffeeshop_test'@'localhost';
 
 use coffeeshop_test;
 
+
+# staging
+
+CREATE DATABASE coffeeshop_staging;
+
+CREATE USER 'coffeeshop_staging'@'%' IDENTIFIED BY '<PASSWORD>';
+GRANT ALL PRIVILEGES ON coffeeshop_staging.* TO 'coffeeshop_staging'@'%';
+
+use coffeeshop_staging;
 
 # production
 

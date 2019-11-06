@@ -13,19 +13,6 @@
   <description>Project for the example e-commerce shop; combines the modules and delievers a ui
   </description>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>snapshots</id>
-      <name>libs-snapshot</name>
-      <url>http://141.37.123.36:8081/artifactory/libs-snapshot</url>
-    </snapshotRepository>
-    <repository>
-      <id>central</id>
-      <name>libs-release</name>
-      <url>http://141.37.123.36:8081/artifactory/libs-release</url>
-    </repository>
-  </distributionManagement>
-
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -136,6 +123,9 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <executable>true</executable>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
