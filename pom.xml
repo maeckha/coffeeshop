@@ -110,6 +110,12 @@
       <version>1.5.5</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.codehaus.sonar/sonar-maven-plugin -->
+    <dependency>
+      <groupId>org.codehaus.sonar</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>5.1</version>
+    </dependency>
   </dependencies>
 
   <build>
