@@ -7,7 +7,7 @@ pipeline {
     stages { 
         stage('Build') { 
              steps {
-                withSonarQubeEnv('HTWG SonarQube Scanner') {
+                withSonarQubeEnv('HTWG SonarQube') {
                     sh 'mvn -Dmaven.test.failure.ignore=true package site sonar:sonar'
                 }
                 jacoco()
