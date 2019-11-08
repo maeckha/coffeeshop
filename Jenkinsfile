@@ -9,7 +9,7 @@ pipeline {
              steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install site' 
                 jacoco()
-                recordIssues(tools: [findBugs(useRankAsPriority: true)])
+                recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
             }
             post {
                 success {
