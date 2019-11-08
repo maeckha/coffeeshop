@@ -22,7 +22,7 @@ public class ShoppingCart {
    */
   public ShoppingCart() {
     this.itemsInShoppingCart = new ArrayList<>();
-    this.cartTotalSum = new BigDecimal("0");
+    this.cartTotalSum = BigDecimal.ZERO;
     // set a new id to the created shopping cart
     this.id = idGenerator.incrementAndGet();
   }
