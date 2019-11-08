@@ -8,6 +8,8 @@ pipeline {
         stage('Build') { 
              steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                jacoco()
+                recordIssues(tools: [findBugs(useRankAsPriority: true)])
             }
             post {
                 success {
