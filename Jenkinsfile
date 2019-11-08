@@ -7,7 +7,7 @@ pipeline {
     stages { 
         stage('Build') { 
              steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install site' 
+                sh 'mvn -Dmaven.test.failure.ignore=true package site sonar:sonar'
                 jacoco()
                 recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
             }
