@@ -142,7 +142,12 @@ public class CustomerInfo implements Comparable<CustomerInfo> {
             java.util.Objects.equals(city, that.city);
   }
 
-  @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), email, surname, firstname, street, city);
+    }
+
+    @Override
   public String toString() {
     return "CustomerInfo{"
         + "email=" + email
