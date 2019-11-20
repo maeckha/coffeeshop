@@ -12,6 +12,7 @@ public class ShoppingCart {
    */
   private static AtomicLong idGenerator = new AtomicLong();
 
+  // id
   private long id;
   private List<ShoppingCartItem> itemsInShoppingCart;
   private BigDecimal cartTotalSum;
