@@ -7,8 +7,6 @@ import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.catalog.service.CatalogService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

@@ -130,7 +130,23 @@ public class CustomerInfo implements Comparable<CustomerInfo> {
     }
   }
 
-  @Override
+  public boolean equals(Object object) {
+    if (this == object) return true;
+    if (object == null || getClass() != object.getClass()) return false;
+    if (!super.equals(object)) return false;
+    CustomerInfo that = (CustomerInfo) object;
+    return java.util.Objects.equals(email, that.email) &&
+            java.util.Objects.equals(surname, that.surname) &&
+            java.util.Objects.equals(firstname, that.firstname) &&
+            java.util.Objects.equals(street, that.street) &&
+            java.util.Objects.equals(city, that.city);
+  }
+
+    public int hashCode() {
+      return java.util.Objects.hash(super.hashCode(), email, surname, firstname, street, city);
+    }
+
+    @Override
   public String toString() {
     return "CustomerInfo{"
         + "email=" + email
