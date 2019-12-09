@@ -86,4 +86,18 @@ public class CartController {
         itemWrapper.getQuantity());
   }
 
+  @PostMapping(
+          value = "/change",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public @ResponseBody
+  ShoppingCart changeItemFromCart(
+          @CookieValue("cart-id") long cartId,
+          @RequestBody ItemWrapper itemWrapper) {
+
+    return this.cartService.changeItemAmountFromShoppingCard(cartId, itemWrapper.getProductId(),
+            itemWrapper.getQuantity());
+  }
+
 }

@@ -31,6 +31,7 @@
                 <th>Art-Nr</th>
                 <th>Name</th>
                 <th>Anzahl</th>
+                <th>Anzahl ändern</th>
                 <th>Einzelpreis</th>
                 <th>Preis</th>
                 <th></th>
@@ -41,6 +42,11 @@
                 <td th:text="${item.product.id}" th:id="'product-id-' + ${item.product.id}">item.product.id</td>
                 <td th:text="${item.product.name}">item.product.name</td>
                 <td th:text="${item.quantity}" th:id="'quantity-' + ${item.product.id}">item.quantity</td>
+                <td id="shopping-cart-quantity"></td>
+                <td>
+                    <button th:id="${item.product.id}" onClick="changeItem(this.id, true)" class="btn btn-primary">+</button>
+                    <button th:id="${item.product.id}" onClick="changeItem(this.id, false)" class="btn btn-primary">-</button>
+                </td>
                 <td th:text="${item.product.priceEuro}">item.product.priceEuro</td>
                 <td>Gesamtpreis für Artikel</td>
 
