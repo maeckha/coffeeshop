@@ -44,14 +44,14 @@ function removeItem(itemId) {
   xhr.send(JSON.stringify({productId: productId, quantity: quantity}));
 }
 
-function changeItem(itemId, isAdded) {
+function addItem(itemId) {
   var cartId = Cookies.get("cart-id");
   // get the needed infos for the controller call
   var quantity = document.getElementById("quantity-" + itemId).innerHTML;
   var productId = document.getElementById("product-id-" + itemId).innerHTML;
 
   // send item to server
-  var requestUrl = "/carts/change";
+  var requestUrl = "/carts/addItem";
   var xhr = new XMLHttpRequest();
   xhr.open("POST", requestUrl);
 
@@ -60,11 +60,44 @@ function changeItem(itemId, isAdded) {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
         // the response is the updated shopping cart
-        if(isAdded) {
           sessionStorage.setItem('amountOfItems',
               ((parseInt(sessionStorage.getItem('amountOfItems')) + 1) + '')
           );
+
+        location.reload();
+      } else {
+        alert("Error while removing item!");
+        console.error("Status = " + xhr.status);
+      }
+    }
+  };
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({productId: productId, quantity: quantity}));
+}
+
+function substractItem(itemId) {
+  var cartId = Cookies.get("cart-id");
+  // get the needed infos for the controller call
+  var quantity = document.getElementById("quantity-" + itemId).innerHTML;
+  var productId = document.getElementById("product-id-" + itemId).innerHTML;
+
+  // send item to server
+  var requestUrl = "/carts/substractItem";
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", requestUrl);
+
+  xhr.onreadystatechange = function () {
+
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        if(parseInt(sessionStorage.getItem('amountOfItems')) === 0) {
+          alert("Amount cannot go below 0!");
+          console.error("Status = " + xhr.status);
+          throw new Error("Amount cannot go below 0!");
         } else {
+
+        // the response is the updated shopping cart
           sessionStorage.setItem('amountOfItems',
               ((parseInt(sessionStorage.getItem('amountOfItems')) - 1) + '')
           );

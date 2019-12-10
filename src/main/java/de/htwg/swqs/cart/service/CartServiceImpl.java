@@ -111,26 +111,37 @@ public class CartServiceImpl implements CartService {
     return removeItemFromCart(cartId, item);
   }
 
-  public ShoppingCart changeItemAmountFromShoppingCard(long cartId, long productId, int quantity) {
+  public ShoppingCart addItemAmountFromShoppingCard(long cartId, long productId, int quantity) {
     ShoppingCart shoppingCart = this.getShoppingCart(cartId);
     List<ShoppingCartItem> items = shoppingCart.getItemsInShoppingCart();
     Product product = this.catalogService.getProductById(productId);
 
     items.forEach(item -> {
       if(item.getProduct().equals(product)) {
-        item.setQuantity(quantity);
-        shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
-                .add(new BigDecimal(((double)Math.round(product.getPriceEuro()
-                        .floatValue()*100)/100 * item.getQuantity())).setScale(2, BigDecimal.ROUND_HALF_EVEN)));
+          shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
+                  .add(product.getPriceEuro()));
+        item.setQuantity(item.getQuantity() + 1);
       }
     });
-
-//    ShoppingCartItem item = new ShoppingCartItem();
-//    item.setQuantity(quantity);
-//    item.setProduct(product);
-
     return shoppingCart;
   }
+
+    public ShoppingCart substractItemAmountFromShoppingCard(long cartId, long productId, int quantity) {
+    ShoppingCart shoppingCart = this.getShoppingCart(cartId);
+    List<ShoppingCartItem> items = shoppingCart.getItemsInShoppingCart();
+    Product product = this.catalogService.getProductById(productId);
+
+    items.forEach(item -> {
+      if(item.getProduct().equals(product)) {
+        shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
+                .subtract(product.getPriceEuro()));
+        item.setQuantity(item.getQuantity() - 1);
+      }
+    });
+    return shoppingCart;
+  }
+
+
 
   /**
    * Adds the given item to the shopping cart identified by the cartId. Throws exception if cart not
