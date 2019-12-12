@@ -32,22 +32,22 @@ pipeline {
 
         stage('Build') { 
              steps {
-                withSonarQubeEnv('HTWG SonarQube') {
+                // withSonarQubeEnv('HTWG SonarQube') {
                     rtMavenRun (
                                     tool: "Maven", // Tool name from Jenkins configuration
                                     pom: 'pom.xml',
-                                    goals: 'clean install site sonar:sonar',
+                                    goals: 'clean install site',
                                     deployerId: "MAVEN_DEPLOYER",
                                     resolverId: "MAVEN_RESOLVER"
                                 )
                     //sh 'mvn -Dmaven.test.failure.ignore=true package site sonar:sonar'
-                }
-                jacoco()
-                recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
+                // }
+                //jacoco()
+                //recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                    //archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                     junit 'target/surefire-reports/**/*.xml' 
                 }
             }
