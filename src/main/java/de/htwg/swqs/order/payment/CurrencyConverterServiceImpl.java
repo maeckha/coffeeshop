@@ -46,8 +46,23 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
         BufferedReader in = null;
         try {
 
-          in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+
+            connection.disconnect();
+            StringBuilder jsonResponse = new StringBuilder(content.toString());
+
+            System.out.println("Retrieved response = " + jsonResponse.toString());
+
+            jsonResponse.delete(0, 11);
+            jsonResponse.deleteCharAt(jsonResponse.length() - 1);
+
+            return new BigDecimal(jsonResponse.toString());
         } finally {
             if (in != null) {
                 System.out.println("Closing PrintWriter");
@@ -56,20 +71,5 @@ public class CurrencyConverterServiceImpl implements CurrencyConverterService {
                 System.out.println("PrintWriter not open");
             }
         }
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-        connection.disconnect();
-        StringBuilder jsonResponse = new StringBuilder(content.toString());
-
-        System.out.println("Retrieved response = " + jsonResponse.toString());
-
-        jsonResponse.delete(0, 11);
-        jsonResponse.deleteCharAt(jsonResponse.length() - 1);
-
-        return new BigDecimal(jsonResponse.toString());
     }
 }
