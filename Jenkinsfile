@@ -42,13 +42,16 @@ pipeline {
                                 )
                     //sh 'mvn -Dmaven.test.failure.ignore=true package site sonar:sonar'
                 // }
-                //jacoco()
-                //recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
+                jacoco()
+                recordIssues(tools: [checkStyle(),findBugs(useRankAsPriority: true),pmdParser()])
             }
             post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+
                 success {
-                    //archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                    junit 'target/surefire-reports/**/*.xml' 
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
                 }
             }
         }
