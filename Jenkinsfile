@@ -34,7 +34,7 @@ pipeline {
              steps {
                 withSonarQubeEnv('HTWG SonarQube') {
                     rtMavenRun (
-                                    tool: Maven, // Tool name from Jenkins configuration
+                                    tool: "Maven", // Tool name from Jenkins configuration
                                     pom: 'maven-example/pom.xml',
                                     goals: 'clean install site sonar:sonar',
                                     deployerId: "MAVEN_DEPLOYER",
