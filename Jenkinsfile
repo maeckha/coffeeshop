@@ -19,7 +19,7 @@ pipeline {
 
         stage ('Artifactory configuration') {
                 when {
-                    branch 'master'
+                    branch 'master|development'
                 }
                 steps {
                     rtServer (
@@ -46,7 +46,7 @@ pipeline {
 
         stage('Build') {
             when {
-                branch 'master'
+                branch 'master|development'
             }
             steps {
                 withSonarQubeEnv('HTWG SonarQube') {
@@ -63,7 +63,6 @@ pipeline {
             }
             post {
                 always {
-                    junit 'target/surefire-reports/**/*.xml'
                     junit 'target/failsafe-reports/**/*.xml'
                 }
 
@@ -75,7 +74,7 @@ pipeline {
 
         stage ('Publish build info') {
             when {
-                branch 'master'
+                branch 'master|development'
             }
             steps {
                         rtPublishBuildInfo (
