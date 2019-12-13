@@ -103,7 +103,7 @@ pipeline {
                             remote.host = '193.196.52.139'
                             remote.allowAnyHosts = true
                             sshPut remote: remote, from: "target/" + filename, into: '/opt/coffeeshop'
-                            sshCommand remote: remote, command: 'chmod 544 /opt/coffeeshop/' + filename
+                            sshCommand remote: remote, command: 'chmod 744 /opt/coffeeshop/' + filename
                             sshCommand remote: remote, command: 'ln -s -f /opt/coffeeshop/' + filename + ' /opt/coffeeshop/shop-ui.jar'
                             sshCommand remote: remote, command: 'systemctl restart coffeeshop', sudo: true
                         }
