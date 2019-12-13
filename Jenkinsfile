@@ -6,7 +6,21 @@ pipeline {
     }
     stages {
 
+        stage ('Unit Test') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true clean test'
+            }
+             post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+             }
+        }
+
         stage ('Artifactory configuration') {
+                when {
+                    branch 'master'
+                }
                 steps {
                     rtServer (
                         id: "ARTIFACTORY_SERVER",
@@ -30,8 +44,11 @@ pipeline {
                 }
         }
 
-        stage('Build') { 
-             steps {
+        stage('Build') {
+            when {
+                branch 'master'
+            }
+            steps {
                 withSonarQubeEnv('HTWG SonarQube') {
                     rtMavenRun (
                                     tool: "Maven", // Tool name from Jenkins configuration
@@ -57,7 +74,10 @@ pipeline {
         }
 
         stage ('Publish build info') {
-                    steps {
+            when {
+                branch 'master'
+            }
+            steps {
                         rtPublishBuildInfo (
                             serverId: "ARTIFACTORY_SERVER"
                         )
