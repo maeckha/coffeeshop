@@ -69,7 +69,6 @@ pipeline {
                             resolverId: "MAVEN_RESOLVER"
                     )
                 }
-                jacoco()
             }
             post {
                 always {
@@ -111,7 +110,7 @@ pipeline {
                         remote.passphrase = passphrase
                         remote.name = '193.196.52.139'
                         remote.host = '193.196.52.139'
-                        sshPut remote: remote, from: 'target/*.jar', into: '.'
+                        sshPut remote: remote, from: 'target/shop-ui-1.1.0-SNAPSHOT.jar', into: '.'
                     }
                 }
             }
