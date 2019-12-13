@@ -19,7 +19,7 @@ pipeline {
 
         stage ('Artifactory configuration') {
                 when {
-                    any {
+                    anyOf {
                         branch 'master'
                         branch 'development'
                     }
@@ -49,7 +49,7 @@ pipeline {
 
         stage('Build') {
               when {
-                   any {
+                   anyOf {
                        branch 'master'
                        branch 'development'
                    }
@@ -80,7 +80,7 @@ pipeline {
 
         stage ('Publish build info') {
            when {
-                any {
+                anyOf {
                     branch 'master'
                     branch 'development'
                 }
