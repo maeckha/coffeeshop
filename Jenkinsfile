@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        gitLabConnection('in gitlab')
+    }
     tools {
         maven 'Maven'
         jdk 'JDK 8'
@@ -8,10 +11,12 @@ pipeline {
         // Run unit test in all cases
         stage('Unit Test') {
             steps {
-                echo BRANCH_NAME
-                sh 'mvn -Dmaven.test.failure.ignore=true clean test site'
-                jacoco()
-                recordIssues(tools: [checkStyle(), findBugs(useRankAsPriority: true), pmdParser()])
+                gitlabCommitStatus('Unit Test') {
+                    echo BRANCH_NAME
+                    sh 'mvn -Dmaven.test.failure.ignore=true clean test site'
+                    jacoco()
+                    recordIssues(tools: [checkStyle(), findBugs(useRankAsPriority: true), pmdParser()])
+                }
             }
             post {
                 always {
@@ -104,8 +109,9 @@ pipeline {
             steps {
 
                 script {
-                    def version = sh script: 'mvn help:evaluate -Dexpression=project.name | grep -v "^\\["', returnStdout: true
-                    echo version;
+                    def name = sh script: 'mvn help:evaluate -Dexpression=project.name | grep -v "^\\["', returnStdout: true
+                    def version = sh script: 'mvn help:evaluate -Dexpression=project.version | grep -v "^\\["', returnStdout: true
+                    echo name+"-"+version;
 
                     withCredentials([sshUserPrivateKey(credentialsId: '13e88844-d8e9-46dc-b6d0-196b13b9dc42', keyFileVariable: 'identity', passphraseVariable: 'passphrase', usernameVariable: 'userName')]) {
                         def remote = [:]
@@ -115,7 +121,7 @@ pipeline {
                         remote.name = '193.196.52.139'
                         remote.host = '193.196.52.139'
                         remote.allowAnyHosts = true
-                        sshPut remote: remote, from: 'target/shop-ui-1.1.0-SNAPSHOT.jar', into: '/opt/coffeeshop/shop-ui.jar'
+                        sshPut remote: remote, from: "target/"+name+"-"+version+".jar", into: '/opt/coffeeshop/shop-ui.jar'
                     }
                 }
             }
