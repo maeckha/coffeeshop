@@ -58,7 +58,7 @@ pipeline {
                         rtMavenRun(
                                 tool: "Maven", // Tool name from Jenkins configuration
                                 pom: 'pom.xml',
-                                goals: 'clean install site sonar:sonar',
+                                goals: '-Dbuild.number=$BUILD_NUMBER clean install site sonar:sonar',
                                 deployerId: "MAVEN_DEPLOYER",
                                 resolverId: "MAVEN_RESOLVER"
                         )
@@ -105,7 +105,7 @@ pipeline {
                             sshPut remote: remote, from: "target/" + filename, into: '/opt/coffeeshop'
                             sshCommand remote: remote, command: 'chmod 544 /opt/coffeeshop/' + filename
                             sshCommand remote: remote, command: 'ln -s -f /opt/coffeeshop/' + filename + ' /opt/coffeeshop/shop-ui.jar'
-                            sshCommand remote: remote, command: 'systemctl restart coffeeshop.service', sudo: true
+                            sshCommand remote: remote, command: 'systemctl restart coffeeshop', sudo: true
                         }
                     }
                 }
