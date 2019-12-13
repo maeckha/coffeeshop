@@ -102,7 +102,11 @@ pipeline {
                 }
             }
             steps {
+
                 script {
+                    def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+                    echo version;
+
                     withCredentials([sshUserPrivateKey(credentialsId: '13e88844-d8e9-46dc-b6d0-196b13b9dc42', keyFileVariable: 'identity', passphraseVariable: 'passphrase', usernameVariable: 'userName')]) {
                         def remote = [:]
                         remote.user = userName
@@ -110,6 +114,7 @@ pipeline {
                         remote.passphrase = passphrase
                         remote.name = '193.196.52.139'
                         remote.host = '193.196.52.139'
+                        remote.allowAnyHosts = true
                         sshPut remote: remote, from: 'target/shop-ui-1.1.0-SNAPSHOT.jar', into: '.'
                     }
                 }
