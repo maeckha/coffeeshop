@@ -94,5 +94,17 @@ pipeline {
                 )
             }
         }
+
+        stage('Deploy on staging') {
+            when {
+                anyOf {
+                    branch 'master'
+                    branch 'development'
+                }
+            }
+            steps {
+                sshPut "target/*.jar" "."
+            }
+        }
     }
 }
