@@ -25,8 +25,8 @@ pipeline {
             }
         }
 
-        // We only upload development and master branch to artifactoy
-        stage('Artifactory configuration') {
+        // Build involves integration tests and upload to artifactory
+        stage('Build') {
             when {
                 anyOf {
                     branch 'master'
@@ -53,26 +53,16 @@ pipeline {
                         releaseRepo: "libs-release",
                         snapshotRepo: "libs-snapshot"
                 )
-            }
-        }
-
-        // Build involves integration tests and upload to artifactory
-        stage('Build') {
-            when {
-                anyOf {
-                    branch 'master'
-                    branch 'development'
-                }
-            }
-            steps {
-                withSonarQubeEnv('HTWG SonarQube') {
-                    rtMavenRun(
-                            tool: "Maven", // Tool name from Jenkins configuration
-                            pom: 'pom.xml',
-                            goals: 'clean install site sonar:sonar',
-                            deployerId: "MAVEN_DEPLOYER",
-                            resolverId: "MAVEN_RESOLVER"
-                    )
+                gitlabCommitStatus('Build') {
+                    withSonarQubeEnv('HTWG SonarQube') {
+                        rtMavenRun(
+                                tool: "Maven", // Tool name from Jenkins configuration
+                                pom: 'pom.xml',
+                                goals: 'clean install site sonar:sonar',
+                                deployerId: "MAVEN_DEPLOYER",
+                                resolverId: "MAVEN_RESOLVER"
+                        )
+                    }
                 }
             }
             post {
@@ -81,23 +71,13 @@ pipeline {
                 }
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                    rtPublishBuildInfo(
+                            serverId: "ARTIFACTORY_SERVER"
+                    )
                 }
             }
         }
 
-        stage('Publish build info') {
-            when {
-                anyOf {
-                    branch 'master'
-                    branch 'development'
-                }
-            }
-            steps {
-                rtPublishBuildInfo(
-                        serverId: "ARTIFACTORY_SERVER"
-                )
-            }
-        }
 
         stage('Deploy on staging') {
             when {
@@ -107,10 +87,9 @@ pipeline {
                 }
             }
             steps {
-
                 script {
-                    def name = sh script: 'mvn help:evaluate -Dexpression=project.name | grep -v "^\\["', returnStdout: true
-                    def version = sh script: 'mvn help:evaluate -Dexpression=project.version | grep -v "^\\["', returnStdout: true
+                    def name = sh script: 'mvn help:evaluate -Dexpression=project.name | grep -v "^\\[" | tr -d \'\\n\'', returnStdout: true
+                    def version = sh script: 'mvn help:evaluate -Dexpression=project.version | grep -v "^\\[" | tr -d \'\\n\'', returnStdout: true
                     echo name+"-"+version;
 
                     withCredentials([sshUserPrivateKey(credentialsId: '13e88844-d8e9-46dc-b6d0-196b13b9dc42', keyFileVariable: 'identity', passphraseVariable: 'passphrase', usernameVariable: 'userName')]) {
@@ -122,6 +101,7 @@ pipeline {
                         remote.host = '193.196.52.139'
                         remote.allowAnyHosts = true
                         sshPut remote: remote, from: "target/"+name+"-"+version+".jar", into: '/opt/coffeeshop/shop-ui.jar'
+                        sshCommand remote: remote, command: 'systemctl restart coffeeshop.service', sudo: true
                     }
                 }
             }
