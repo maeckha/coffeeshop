@@ -7,8 +7,8 @@ pipeline {
     stages {
         // Run unit test in all cases
         stage('Unit Test') {
-            echo BRANCH_NAME
             steps {
+                echo BRANCH_NAME
                 sh 'mvn -Dmaven.test.failure.ignore=true clean test'
             }
             post {
