@@ -19,7 +19,10 @@ pipeline {
 
         stage ('Artifactory configuration') {
                 when {
-                    branch 'master|development'
+                    any {
+                        branch 'master'
+                        branch 'development'
+                    }
                 }
                 steps {
                     rtServer (
@@ -45,9 +48,12 @@ pipeline {
         }
 
         stage('Build') {
-            when {
-                branch 'master|development'
-            }
+              when {
+                   any {
+                       branch 'master'
+                       branch 'development'
+                   }
+               }
             steps {
                 withSonarQubeEnv('HTWG SonarQube') {
                     rtMavenRun (
@@ -73,8 +79,11 @@ pipeline {
         }
 
         stage ('Publish build info') {
-            when {
-                branch 'master|development'
+           when {
+                any {
+                    branch 'master'
+                    branch 'development'
+                }
             }
             steps {
                         rtPublishBuildInfo (
