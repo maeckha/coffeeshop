@@ -103,7 +103,17 @@ pipeline {
                 }
             }
             steps {
-                sshPut "target/*.jar" "."
+                script {
+                    withCredentials([sshUserPrivateKey(credentialsId: '13e88844-d8e9-46dc-b6d0-196b13b9dc42', keyFileVariable: 'identity', passphraseVariable: 'passphrase', usernameVariable: 'userName')]) {
+                        def remote = [:]
+                        remote.user = userName
+                        remote.identityFile = identity
+                        remote.passphrase = passphrase
+                        remote.name = '193.196.52.139'
+                        remote.host = '193.196.52.139'
+                        sshPut remote: remote, from: 'target/*.jar', into: '.'
+                    }
+                }
             }
         }
     }
