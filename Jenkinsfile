@@ -104,7 +104,7 @@ pipeline {
             steps {
 
                 script {
-                    def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+                    def version = sh script: 'mvn help:evaluate -Dexpression=project.name | grep -v "^\\["', returnStdout: true
                     echo version;
 
                     withCredentials([sshUserPrivateKey(credentialsId: '13e88844-d8e9-46dc-b6d0-196b13b9dc42', keyFileVariable: 'identity', passphraseVariable: 'passphrase', usernameVariable: 'userName')]) {
@@ -115,7 +115,7 @@ pipeline {
                         remote.name = '193.196.52.139'
                         remote.host = '193.196.52.139'
                         remote.allowAnyHosts = true
-                        sshPut remote: remote, from: 'target/shop-ui-1.1.0-SNAPSHOT.jar', into: '.'
+                        sshPut remote: remote, from: 'target/shop-ui-1.1.0-SNAPSHOT.jar', into: '/opt/coffeeshop/shop-ui.jar'
                     }
                 }
             }
