@@ -10,14 +10,14 @@ pipeline {
             steps {
                 echo BRANCH_NAME
                 sh 'mvn -Dmaven.test.failure.ignore=true clean test'
+                recordIssues(tools: [checkStyle(), findBugs(useRankAsPriority: true), pmdParser()])
+                jacoco()
             }
             post {
                 always {
                     junit 'target/surefire-reports/**/*.xml'
                 }
             }
-            jacoco()
-            recordIssues(tools: [checkStyle(), findBugs(useRankAsPriority: true), pmdParser()])
         }
 
         // We only upload development and master branch to artifactoy
