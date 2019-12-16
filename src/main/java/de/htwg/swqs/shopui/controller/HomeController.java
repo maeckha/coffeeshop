@@ -20,4 +20,9 @@ public class HomeController {
     model.addAttribute("title", "E-Commerce Shop | About");
     return "about";
   }
+
+  @GetMapping(value = {"login"})
+  public String login(Model model) {
+    return "login";
+  }
 }
