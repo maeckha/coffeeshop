@@ -50,11 +50,7 @@
     <a class="nav-item" id="nav-catalog" href="/products/" title="Sortiment">Sortiment</a>
     <a class="nav-item" id="nav-cart" href="/show-cart/" title="Warenkorb">Warenkorb</a>
     <a class="nav-item" id="nav-about" href="/about/" title="Information">Information</a>
-    <a class="nav-item" id="nav-admin" href="/admin/" title="Admin">Admin</a>
-
-    <span style="margin-left: auto" class="nav-item" th:inline="text">[[${#httpServletRequest.remoteUser}]]</span>
-    <form th:if="${#httpServletRequest.remoteUser} != null" th:action="@{/logout}" method="post">
-        <input class="nav-item" type="submit" value="Sign Out"/>
+    <a style="margin-left: auto" class="nav-item" id="nav-admin" href="/admin/adminhome" title="Log-In">Admin</a>
     </form>
 </nav>
 
