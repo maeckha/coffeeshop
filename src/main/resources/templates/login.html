@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
+<head>
+    <title>CoffeeShop Login </title>
+</head>
+<body>
+
+<div class="container">
+<form th:action="@{/login}" method="post">
+    <div class="alert alert-danger" th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div class="alert alert-info" th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <div class="form-group"><label for="username"> User Name : </label><input id="username" type="text" class="form-control" name="username"/> </div>
+    <div class="form-group"><label for="password"> Password:</label> <input id="password" type="password"  class="form-control" name="password"/> </div>
+    <div><button class="btn btn-primary" type="submit">Sign In</button></div>
+</form>
+</div>
+</body>
+<div th:replace="fragments/footer :: footer"></div>
+</html>
