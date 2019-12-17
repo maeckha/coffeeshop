@@ -1,12 +1,15 @@
-[![pipeline status](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/badges/master/pipeline.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/commits/master)
-[![coverage report](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/badges/master/coverage.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-shop-ui/commits/master)
-
 # swqs-shop-ui
 The shop ui delivers a serverbased Web-Application, realized with [Spring Boot](https://projects.spring.io/spring-boot/) 
 and [Thymeleaf](https://www.thymeleaf.org/).
 
 The shopping cart of the customer is managed serverside by a simple list, 
 the client holds the cart id in a cookie.
+
+## Environments
+
+[Test/Staging](http://193.196.52.139:8080)
+
+[Production](http://193.196.52.226:8080)
 
 ## database
 

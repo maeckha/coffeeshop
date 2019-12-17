@@ -11,6 +11,14 @@ GRANT ALL PRIVILEGES ON coffeeshop_test.* TO 'coffeeshop_test'@'localhost';
 
 use coffeeshop_test;
 
+# test
+
+CREATE DATABASE coffeeshop_test;
+
+CREATE USER 'coffeeshop_test'@'%' IDENTIFIED BY '<PASSWORD>';
+GRANT ALL PRIVILEGES ON coffeeshop_test.* TO 'coffeeshop_test'@'%';
+
+use coffeeshop_test;
 
 # staging
 
