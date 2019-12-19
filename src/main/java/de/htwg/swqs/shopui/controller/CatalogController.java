@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -39,6 +40,19 @@ public class CatalogController {
     model.addAttribute("product", product);
     response.encodeURL("/details/" + product.getId());
     return "detail";
+  }
+
+  @GetMapping(value = "/create")
+  public String showCreateProductView(Model model){
+    Product product = new Product();
+    model.addAttribute("product", product);
+    return "product-create";
+  }
+
+  @PostMapping(value = "/submit-product")
+  public String submitProduct(Product product, Model model){
+    this.catalogService.createProduct(product);
+    return getAllProducts(model);
   }
 
 }
