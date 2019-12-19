@@ -8,4 +8,6 @@ public interface CatalogService {
   List<Product> getAllProducts();
 
   Product getProductById(long id);
+
+  void createProduct(Product product);
 }

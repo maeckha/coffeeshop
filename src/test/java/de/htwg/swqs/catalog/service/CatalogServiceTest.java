@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.catalog.repository.CatalogRepository;
+import de.htwg.swqs.catalog.utils.ProductAlreadyExistsException;
 import de.htwg.swqs.catalog.utils.ProductNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -78,6 +79,35 @@ public class CatalogServiceTest {
 
     // execute
     Product retrievedProduct = catalogService.getProductById(42L);
+
+    // The test is verified by the expected exception
+  }
+
+  @Test
+  public void createProductTest(){
+    // setup
+    CatalogRepository catalogRepository = mock(CatalogRepository.class);
+    CatalogService catalogService = new CatalogServiceImpl(catalogRepository);
+    Product sampleProduct = new Product(12346L, "Test", "Test", new BigDecimal(100), 100);
+
+    // execute
+    catalogService.createProduct(sampleProduct);
+
+    // verify
+    when(catalogRepository.findById(12346L)).thenReturn(Optional.of(sampleProduct));
+    assertEquals(Optional.of(catalogService.getProductById(12346L)), catalogRepository.findById(12346L));
+  }
+
+  @Test(expected = ProductAlreadyExistsException.class)
+  public void createProductThrowsException() {
+    // setup
+    CatalogRepository catalogRepository = mock(CatalogRepository.class);
+    CatalogService catalogService = new CatalogServiceImpl(catalogRepository);
+    Product product = new Product(10001L, "Test", "Test", new BigDecimal(100), 100);
+    when(catalogRepository.findById(10001L)).thenReturn(Optional.of(product));
+
+    // execute
+    catalogService.createProduct(product);
 
     // The test is verified by the expected exception
   }

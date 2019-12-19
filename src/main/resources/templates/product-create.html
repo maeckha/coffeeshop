@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: head"></div>
+<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header :: navbar"></div>
+<body>
+<style>
+    #nav-catalog {
+        background-color: rgb(217, 229, 236);
+        color: rgb(51, 65, 82);
+    }
+</style>
+
+<main class="catalog-wrapper">
+
+    <h1>Neues Produkt</h1>
+
+    <form action="#" th:action="@{/products/submit-product}" th:object="${product}" method="POST">
+        <label>Artikelnummer:</label>
+        <input id="product_id" name="product_id" type="text" required th:field="*{id}"><br>
+
+        <label>Name:</label>
+        <input id="product_name" name="product_name" type="text" required th:field="*{name}"><br>
+
+        <label>Beschreibung:</label>
+        <input id="product_description" name="product_description" type="text" required th:field="*{description}"><br>
+
+        <label>Preis (in Euro):</label>
+        <input id="product_price" name="product_price" type="text" required th:field="*{priceEuro}"><br>
+
+        <label>Gewicht:</label>
+        <input id="product_weight" name="product_name" type="text" th:field="*{weight}"><br>
+
+        <button class="btn btn-primary" type="submit">Neues Produkt</button>
+    </form>
+
+
+
+</main>
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

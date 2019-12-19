@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.catalog.service.CatalogService;
+import de.htwg.swqs.catalog.utils.ProductAlreadyExistsException;
 import de.htwg.swqs.catalog.utils.ProductNotFoundException;
 import de.htwg.swqs.shopui.HelperUtil;
 import java.util.ArrayList;
@@ -126,4 +127,14 @@ public class CatalogControllerTest {
       throw exc.getCause();
     }
   }
+
+//  @Test
+//  public void submitProductTest(){
+//
+//  }
+//
+//  @Test(expected = ProductAlreadyExistsException.class)
+//  public void submitProductAlreadyExistsException(){
+//
+//  }
 }

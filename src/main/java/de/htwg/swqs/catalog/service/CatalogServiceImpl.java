@@ -2,6 +2,7 @@ package de.htwg.swqs.catalog.service;
 
 import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.catalog.repository.CatalogRepository;
+import de.htwg.swqs.catalog.utils.ProductAlreadyExistsException;
 import de.htwg.swqs.catalog.utils.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
@@ -36,5 +37,19 @@ public class CatalogServiceImpl implements CatalogService {
       throw new ProductNotFoundException("Product with id " + id + " not found");
     }
     return product.get();
+  }
+
+  @Override
+  public void createProduct(Product product){
+
+    long id = product.getId();
+    Optional<Product> productTest = this.catalogRepository.findById(id);
+
+    if (productTest.isPresent()) {
+      System.out.println("Exception");
+      throw new ProductAlreadyExistsException("Product with id " + id + " already exists");
+    }
+
+    this.catalogRepository.save(product);
   }
 }
