@@ -111,6 +111,38 @@ public class CartServiceImpl implements CartService {
     return removeItemFromCart(cartId, item);
   }
 
+  public ShoppingCart addItemAmountFromShoppingCard(long cartId, long productId, int quantity) {
+    ShoppingCart shoppingCart = this.getShoppingCart(cartId);
+    List<ShoppingCartItem> items = shoppingCart.getItemsInShoppingCart();
+    Product product = this.catalogService.getProductById(productId);
+
+    items.forEach(item -> {
+      if(item.getProduct().equals(product)) {
+          shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
+                  .add(product.getPriceEuro()));
+        item.setQuantity(item.getQuantity() + 1);
+      }
+    });
+    return shoppingCart;
+  }
+
+    public ShoppingCart substractItemAmountFromShoppingCard(long cartId, long productId, int quantity) {
+    ShoppingCart shoppingCart = this.getShoppingCart(cartId);
+    List<ShoppingCartItem> items = shoppingCart.getItemsInShoppingCart();
+    Product product = this.catalogService.getProductById(productId);
+
+    items.forEach(item -> {
+      if(item.getProduct().equals(product)) {
+        shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
+                .subtract(product.getPriceEuro()));
+        item.setQuantity(item.getQuantity() - 1);
+      }
+    });
+    return shoppingCart;
+  }
+
+
+
   /**
    * Adds the given item to the shopping cart identified by the cartId. Throws exception if cart not
    * exist.
@@ -227,4 +259,6 @@ public class CartServiceImpl implements CartService {
     }
     return Optional.empty();
   }
+
+
 }

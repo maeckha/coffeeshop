@@ -86,4 +86,33 @@ public class CartController {
         itemWrapper.getQuantity());
   }
 
+  @PostMapping(
+          value = "/addItem",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public @ResponseBody
+  ShoppingCart addItemFromCart(
+          @CookieValue("cart-id") long cartId,
+          @RequestBody ItemWrapper itemWrapper) {
+
+    return this.cartService.addItemAmountFromShoppingCard(cartId, itemWrapper.getProductId(),
+            itemWrapper.getQuantity());
+  }
+
+  @PostMapping(
+          value = "/substractItem",
+          consumes = MediaType.APPLICATION_JSON_VALUE,
+          produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public @ResponseBody
+  ShoppingCart substractItemFromCart(
+          @CookieValue("cart-id") long cartId,
+          @RequestBody ItemWrapper itemWrapper) {
+
+    return this.cartService.substractItemAmountFromShoppingCard(cartId, itemWrapper.getProductId(),
+            itemWrapper.getQuantity());
+  }
+
+
 }

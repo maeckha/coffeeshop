@@ -19,6 +19,10 @@ public interface CartService {
 
   ShoppingCart addItemToCart(long cartId, long productId, int quantity);
 
+  ShoppingCart addItemAmountFromShoppingCard(long cartId, long productId, int quantity);
+
+  ShoppingCart substractItemAmountFromShoppingCard(long cartId, long productId, int quantity);
+
   String shoppingCartsToString();
 
 }
