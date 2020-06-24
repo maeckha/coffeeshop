@@ -51,7 +51,7 @@ public class EmailServiceIT {
     try {
       // called without tls because of a sslHandShakeException
       URL url = new URL(
-          "http://api.smtpbucket.com/emails" + "?" + "sender=webshop%40swqs.org&recipient="
+          "https://api.smtpbucket.com/emails" + "?" + "sender=webshop%40swqs.org&recipient="
               + recipientAddress[0] + "%40" + recipientAddress[1]);
       System.out.println(url.toString());
       HttpURLConnection connection = (HttpURLConnection) url.openConnection();
