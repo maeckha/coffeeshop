@@ -99,8 +99,8 @@ pipeline {
                             remote.user = userName
                             remote.identityFile = identity
                             remote.passphrase = passphrase
-                            remote.name = '193.196.52.139'
-                            remote.host = '193.196.52.139'
+                            remote.name = '193.196.55.217'
+                            remote.host = '193.196.55.217'
                             remote.allowAnyHosts = true
                             sshPut remote: remote, from: "target/" + filename, into: '/opt/coffeeshop'
                             sshCommand remote: remote, command: 'chmod 744 /opt/coffeeshop/' + filename
