@@ -36,7 +36,7 @@ pipeline {
             steps {
                 gitlabCommitStatus('Unit Test') {
                     echo BRANCH_NAME
-                    sh 'mvn -Dbuild.number=$BUILD_NUMBER clean install site sonar:sonar'
+                    sh 'mvn -Dbuild.number=$BUILD_NUMBER clean install site'
                 }
             }
             post {
