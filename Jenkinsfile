@@ -34,35 +34,9 @@ pipeline {
                 }
             }
             steps {
-                rtServer(
-                        id: "ARTIFACTORY_SERVER",
-                        url: "http://141.37.123.36:8081/artifactory/",
-                        credentialsId: 'artifactory_token'
-                )
-
-                rtMavenDeployer(
-                        id: "MAVEN_DEPLOYER",
-                        serverId: "ARTIFACTORY_SERVER",
-                        releaseRepo: "libs-release-local",
-                        snapshotRepo: "libs-snapshot-local"
-                )
-
-                rtMavenResolver(
-                        id: "MAVEN_RESOLVER",
-                        serverId: "ARTIFACTORY_SERVER",
-                        releaseRepo: "libs-release",
-                        snapshotRepo: "libs-snapshot"
-                )
-                gitlabCommitStatus('Build') {
-                    withSonarQubeEnv('HTWG SonarQube') {
-                        rtMavenRun(
-                                tool: "Maven", // Tool name from Jenkins configuration
-                                pom: 'pom.xml',
-                                goals: '-Dbuild.number=$BUILD_NUMBER clean install site sonar:sonar',
-                                deployerId: "MAVEN_DEPLOYER",
-                                resolverId: "MAVEN_RESOLVER"
-                        )
-                    }
+                gitlabCommitStatus('Unit Test') {
+                    echo BRANCH_NAME
+                    sh 'mvn -Dbuild.number=$BUILD_NUMBER clean install site sonar:sonar'
                 }
             }
             post {
@@ -71,9 +45,6 @@ pipeline {
                 }
                 success {
                     archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                    rtPublishBuildInfo(
-                            serverId: "ARTIFACTORY_SERVER"
-                    )
                 }
             }
         }
