@@ -146,7 +146,7 @@ form div label {
 .catalog-wrapper article {
   position: relative;
   border: 1px solid black;
-  background-color: lightgray;
+  background-color: #DBB543;
   transition: background-color 500ms ease;
 }
 
