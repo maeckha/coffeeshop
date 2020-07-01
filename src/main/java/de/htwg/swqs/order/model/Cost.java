@@ -38,7 +38,7 @@ public class Cost {
   }
 
   public void setAmount(BigDecimal amount) {
-    this.amount = amount;
+    this.amount = amount.divide(BigDecimal.valueOf((long) 1.11214953271,2));
   }
 
   public void setCurrency(String currency) {
