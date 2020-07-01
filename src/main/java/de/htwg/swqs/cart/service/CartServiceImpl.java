@@ -80,7 +80,10 @@ public class CartServiceImpl implements CartService {
     // update the total sum of the cart
     BigDecimal priceOfTheRemovedItems = BigDecimal.valueOf(item.getQuantity())
         .multiply(item.getProduct().getPriceEuro());
-    cart.setCartTotalSum(cart.getCartTotalSum().subtract(priceOfTheRemovedItems));
+    BigDecimal cartTotalSum = cart.getCartTotalSum().subtract(priceOfTheRemovedItems);
+    cart.setCartTotalSum(cartTotalSum);
+    checkForTotalDiscount(cartTotalSum, cart);
+
     // update the quantity of the shopping cart item
     int newQuantityOfProduct = existingShoppingCartItem.get().getQuantity() - item.getQuantity();
     if (newQuantityOfProduct == 0) {
@@ -118,8 +121,9 @@ public class CartServiceImpl implements CartService {
 
     items.forEach(item -> {
       if(item.getProduct().equals(product)) {
-          shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
-                  .add(product.getPriceEuro()));
+        BigDecimal cartTotalSum = shoppingCart.getCartTotalSum().add(product.getPriceEuro());
+        shoppingCart.setCartTotalSum(cartTotalSum);
+        checkForTotalDiscount(cartTotalSum, shoppingCart);
         item.setQuantity(item.getQuantity() + 1);
       }
     });
@@ -133,8 +137,9 @@ public class CartServiceImpl implements CartService {
 
     items.forEach(item -> {
       if(item.getProduct().equals(product)) {
-        shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
-                .subtract(product.getPriceEuro()));
+        BigDecimal cartTotalSum = shoppingCart.getCartTotalSum().subtract(product.getPriceEuro());
+        shoppingCart.setCartTotalSum(cartTotalSum);
+        checkForTotalDiscount(cartTotalSum, shoppingCart);
         item.setQuantity(item.getQuantity() - 1);
       }
     });
@@ -178,7 +183,9 @@ public class CartServiceImpl implements CartService {
     // update the total sum of the cart
     BigDecimal priceOfTheAddedItems = BigDecimal.valueOf(item.getQuantity())
         .multiply(item.getProduct().getPriceEuro());
-    cart.setCartTotalSum(cart.getCartTotalSum().add(priceOfTheAddedItems));
+    BigDecimal cartTotalSum = cart.getCartTotalSum().add(priceOfTheAddedItems);
+    cart.setCartTotalSum(cartTotalSum);
+    checkForTotalDiscount(cartTotalSum, cart);
 
     return cart;
   }
@@ -243,7 +250,7 @@ public class CartServiceImpl implements CartService {
       builder.append(" | # items: ");
       builder.append(v.getItemsInShoppingCart().size());
       builder.append(" | sum: ");
-      builder.append(v.getCartTotalSum());
+      builder.append(v.getCartTotalSumDiscount());
       builder.append(" } \n");
     });
 
@@ -260,5 +267,12 @@ public class CartServiceImpl implements CartService {
     return Optional.empty();
   }
 
-
+  //users get a 5% discount, when they're total hits 100
+  private void checkForTotalDiscount(BigDecimal cartTotalSum, ShoppingCart cart) {
+    if ((cartTotalSum.compareTo(new BigDecimal(100)) != -1)) {
+      cart.setDiscount(true);
+    } else {
+      cart.setDiscount(false);
+    }
+  }
 }

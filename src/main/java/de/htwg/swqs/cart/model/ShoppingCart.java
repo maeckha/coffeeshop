@@ -1,6 +1,7 @@
 package de.htwg.swqs.cart.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -16,6 +17,7 @@ public class ShoppingCart {
   private long id;
   private List<ShoppingCartItem> itemsInShoppingCart;
   private BigDecimal cartTotalSum;
+  private boolean discount;
 
   /**
    * Default constructor which initializes the list for the items and the big decimal for the total
@@ -26,6 +28,7 @@ public class ShoppingCart {
     this.cartTotalSum = BigDecimal.ZERO;
     // set a new id to the created shopping cart
     this.id = idGenerator.incrementAndGet();
+    this.discount = false;
   }
 
   public long getId() {
@@ -44,8 +47,23 @@ public class ShoppingCart {
     return cartTotalSum;
   }
 
+  public BigDecimal getCartTotalSumDiscount() {
+    if (discount) {
+      return cartTotalSum.multiply(new BigDecimal(0.95)).setScale(2, RoundingMode.HALF_UP);
+    }
+    return cartTotalSum;
+  }
+
   public void setCartTotalSum(BigDecimal cartTotalSum) {
     this.cartTotalSum = cartTotalSum;
+  }
+
+  public boolean isDiscount() {
+    return discount;
+  }
+
+  public void setDiscount(boolean discount) {
+    this.discount = discount;
   }
 
   @Override
