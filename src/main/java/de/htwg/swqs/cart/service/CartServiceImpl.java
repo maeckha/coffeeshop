@@ -117,12 +117,12 @@ public class CartServiceImpl implements CartService {
     Product product = this.catalogService.getProductById(productId);
 
     items.forEach(item -> {
-      if(item.getProduct().equals(product)) {
-          shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
-                  .add(product.getPriceEuro()));
-        item.setQuantity(item.getQuantity() + 1);
-      }
-    });
+          if(item.getProduct().equals(product) && quantity < 99) {
+              shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
+                      .add(product.getPriceEuro()));
+              item.setQuantity(item.getQuantity() + 1);
+          }
+      });
     return shoppingCart;
   }
 
@@ -132,7 +132,7 @@ public class CartServiceImpl implements CartService {
     Product product = this.catalogService.getProductById(productId);
 
     items.forEach(item -> {
-      if(item.getProduct().equals(product)) {
+      if(item.getProduct().equals(product) && quantity > 1) {
         shoppingCart.setCartTotalSum(shoppingCart.getCartTotalSum()
                 .subtract(product.getPriceEuro()));
         item.setQuantity(item.getQuantity() - 1);

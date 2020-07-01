@@ -59,11 +59,18 @@ function addItem(itemId) {
 
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        // the response is the updated shopping cart
+        //Item bigger than 99
+        if( sessionStorage.getItem('amountOfItems') >= 99) {
           sessionStorage.setItem('amountOfItems',
-              ((parseInt(sessionStorage.getItem('amountOfItems')) + 1) + '')
-          );
-
+              ((parseInt(sessionStorage.getItem('amountOfItems'))) + ''));
+            alert("Amount cannot go over 99");
+            console.error("Status = " + xhr.status);
+            throw new Error("Amount cannot go over 99!");
+        } else {
+          // the response is the updated shopping cart
+          sessionStorage.setItem('amountOfItems',
+              ((parseInt(sessionStorage.getItem('amountOfItems')) + 1) + ''));
+        }
         location.reload();
       } else {
         alert("Error while removing item!");
@@ -91,10 +98,12 @@ function substractItem(itemId) {
 
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
-        if(parseInt(sessionStorage.getItem('amountOfItems')) === 0) {
-          alert("Amount cannot go below 0!");
+        if(parseInt(sessionStorage.getItem('amountOfItems')) === 1) { //changed from 0
+          sessionStorage.setItem('amountOfItems',
+          ((parseInt(sessionStorage.getItem('amountOfItems'))) + ''));
+          alert("Amount cannot go below 1!");
           console.error("Status = " + xhr.status);
-          throw new Error("Amount cannot go below 0!");
+          throw new Error("Amount cannot go below 1!");
         } else {
 
         // the response is the updated shopping cart

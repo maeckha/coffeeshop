@@ -43,8 +43,8 @@
                 <td th:text="${item.product.name}">item.product.name</td>
                 <td th:text="${item.quantity}" th:id="'quantity-' + ${item.product.id}">item.quantity</td>
                 <td>
-                    <button th:id="${item.product.id}" onClick="addItem(this.id)" class="btn btn-primary">+</button>
-                    <button th:id="${item.product.id}" onClick="substractItem(this.id)" class="btn btn-primary">-</button>
+                    <button th:id="${item.product.id}" onClick="addItem(this.id)" th:disabled="${item.quantity}>=99" class="btn btn-primary">+</button>
+                    <button th:id="${item.product.id}" onClick="substractItem(this.id)" th:disabled="${item.quantity}<=1" class="btn btn-primary">-</button>
                 </td>
                 <td th:text="${item.product.priceEuro}">item.product.priceEuro</td>
                 <td>Gesamtpreis für Artikel</td>
