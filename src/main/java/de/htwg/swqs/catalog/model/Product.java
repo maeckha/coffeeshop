@@ -1,6 +1,7 @@
 package de.htwg.swqs.catalog.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -69,8 +70,10 @@ public class Product {
 
   public BigDecimal getPriceEuro() {
 
-    priceEuro = priceEuro.divide(BigDecimal.valueOf(1.11214953271));
-    return priceEuro;
+    BigDecimal divisor;
+    divisor = new BigDecimal("1.11214953271");
+    //priceEuro = priceEuro.divide(dividend, 2, 1);
+    return priceEuro.divide(divisor, 2, RoundingMode.CEILING);
   }
 
   public void setPriceEuro(BigDecimal priceEuro) {
