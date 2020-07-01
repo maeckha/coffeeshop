@@ -15,6 +15,8 @@ public class ShoppingCartPage {
   private WebElement title;
   @FindBy(id = "order-button")
   private WebElement orderButton;
+  @FindBy(id = "reset-cart-button")
+  private WebElement resetCartButton;
 
   public ShoppingCartPage(SeleniumConfig config) {
     this.config = config;
@@ -36,4 +38,6 @@ public class ShoppingCartPage {
   public void clickOrderButton() {
     this.orderButton.click();
   }
+
+  public void clickResetCartButton() {this.resetCartButton.click();}
 }

@@ -130,6 +130,25 @@ public class SeleniumEndToEnd {
   }
 
   @Test
+  public void openShoppingCartOverviewAndResetCart() {
+    //setup -> add items to cart
+    long idFromProductWeWantToAdd = this.catalogRepository.findAll().get(0).getId();
+    int amountWeWantToAdd = 2;
+    this.productDetailPage = new ProductDetailPage(this.config, idFromProductWeWantToAdd);
+    this.productDetailPage.navigate();
+    this.productDetailPage.addItemToCart(amountWeWantToAdd);
+
+    // execute
+    this.shoppingCartPage.navigate();
+
+    //verify
+    this.shoppingCartPage.clickResetCartButton();
+    assertTrue(this.config.getDriver().getPageSource().contains("Warenkorb is leer."));
+    assertEquals("http://localhost:" + this.port + "/show-cart",
+            this.config.getDriver().getCurrentUrl());
+  }
+
+  @Test
   public void fillInOrderForm() {
     //setup
     long idFromProductWeWantToAdd = this.catalogRepository.findAll().get(0).getId();
