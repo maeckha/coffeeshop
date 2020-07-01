@@ -68,6 +68,8 @@ public class Product {
   }
 
   public BigDecimal getPriceEuro() {
+
+    priceEuro = priceEuro.divide(BigDecimal.valueOf(1.11214953271));
     return priceEuro;
   }
 
