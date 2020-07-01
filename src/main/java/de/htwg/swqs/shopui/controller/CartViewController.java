@@ -24,4 +24,10 @@ public class CartViewController {
     return "shoppingcart";
   }
 
+  @GetMapping(value = {"/clear-cart"})
+  public String clearShoppingCart(@CookieValue("cart-id") long cartId, Model model) {
+    this.cartService.clearShoppingCart(cartId);
+    return "redirect:/show-cart";
+  }
+
 }

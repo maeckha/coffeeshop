@@ -14,15 +14,7 @@ document.getElementById("order-button").addEventListener('click',
 
 document.getElementById("reset-cart-button").addEventListener('click',
     function () {
-      var requestUrl = "/carts/clear";
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", requestUrl);
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          location.reload();
-        }
-      }
-      xhr.send(null);
+      window.location.href = "../clear-cart"
     });
 
 

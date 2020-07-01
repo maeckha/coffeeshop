@@ -1,5 +1,6 @@
 package de.htwg.swqs.shopui.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -54,6 +55,18 @@ public class CartViewControllerTest {
         .andExpect(view().name("shoppingcart"))
         .andExpect(status().isOk())
         .andDo(print());
+  }
+
+  @Test
+  public void testCartViewControllerResetsCartRedirectsToShoppingCart() throws Exception {
+    // setup
+    when(cartService.getShoppingCart(anyLong())).thenReturn(this.shoppingCart);
+
+    // execute & verify
+    this.mvc.perform(get("/clear-cart")
+            .cookie(new Cookie("cart-id", "1")))
+            .andExpect(status().is3xxRedirection())
+            .andDo(print());
   }
 
 
