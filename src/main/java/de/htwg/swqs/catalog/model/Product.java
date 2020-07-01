@@ -73,7 +73,10 @@ public class Product {
     BigDecimal divisor;
     divisor = new BigDecimal("1.11214953271");
     //priceEuro = priceEuro.divide(dividend, 2, 1);
-    return priceEuro.divide(divisor, 2, RoundingMode.CEILING);
+
+    BigDecimal divide = priceEuro.divide(divisor, 2, RoundingMode.CEILING);
+    divide = priceEuro;
+    return priceEuro;
   }
 
   public void setPriceEuro(BigDecimal priceEuro) {
