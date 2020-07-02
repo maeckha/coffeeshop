@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class CartServiceItemAmount {
+public class CartServiceItemAmountTest {
 
     private CartService cartService;
     private ShoppingCart cart;
@@ -20,6 +20,7 @@ public class CartServiceItemAmount {
     @Before
     public void setupTestFixture() {
         CatalogService catalogServiceMock = mock(CatalogService.class);
+        CartService cartServiceMock = mock(CartService.class);
         this.cartService = new CartServiceImpl(catalogServiceMock);
         this.cart = cartService.createNewShoppingCart();
         this.prod = new Product(1234, "Sample product", "a description", BigDecimal.valueOf(0.99),1000);
@@ -34,7 +35,6 @@ public class CartServiceItemAmount {
 
         //execute
         cartService.addItemAmountFromShoppingCard(cart.getId(), prod.getId(), quantity);
-
         //verify
         assertEquals(quantity, item.getQuantity());
     }
