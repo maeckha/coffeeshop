@@ -57,7 +57,7 @@
         </table>
     </div>
     <div>
-        <h4>Zwischensumme: <span th:text="${shoppingCart.getCartTotalSumDiscount}"></span>€</h4>
+        <h4>Zwischensumme: <span th:text="${shoppingCart.getCartTotalSumDiscount()}"></span>€</h4>
         <h4 th:if="${shoppingCart.isDiscount()}">Ihr Einkauf liegt über 100 €, Sie erhalten einen Rabatt von 5%!</h4>
         <button id="order-button" class="btn btn-primary">Zur Kasse</button>
     </div>

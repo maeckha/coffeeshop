@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
 
+  private static final BigDecimal DISCOUNT_LIMIT = new BigDecimal(100);
+
   private static Map<Long, ShoppingCart> shoppingCarts = new ConcurrentHashMap<>();
   private CatalogService catalogService;
 
@@ -269,7 +271,7 @@ public class CartServiceImpl implements CartService {
 
   //users get a 5% discount, when they're total hits 100
   private void checkForTotalDiscount(BigDecimal cartTotalSum, ShoppingCart cart) {
-    if ((cartTotalSum.compareTo(new BigDecimal(100)) != -1)) {
+    if ((cartTotalSum.compareTo(DISCOUNT_LIMIT) != -1)) {
       cart.setDiscount(true);
     } else {
       cart.setDiscount(false);

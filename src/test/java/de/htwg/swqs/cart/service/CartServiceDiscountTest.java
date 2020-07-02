@@ -40,7 +40,7 @@ public class CartServiceDiscountTest {
     cartService.addItemToCart(cart.getId(), item);
 
     // verify
-    assertEquals(new BigDecimal(95.00).setScale(2, RoundingMode.HALF_UP), cartService.getShoppingCart(cart.getId()).getCartTotalSumDiscount());
+    assertEquals(new BigDecimal(95).setScale(2, RoundingMode.HALF_UP), cartService.getShoppingCart(cart.getId()).getCartTotalSumDiscount());
   }
 
   @Test
